@@ -298,6 +298,179 @@ html.dark .modern-tabs-container,
 }
 
 
+/* Time period buttons styling */
+.time-period-buttons .btn-group {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.time-period-btn {
+    border: none !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: #6B7280 !important;
+    font-weight: 500 !important;
+    font-size: 0.75rem !important;
+    padding: 6px 12px !important;
+    transition: all 0.2s ease !important;
+    border-radius: 0 !important;
+    min-width: 40px;
+}
+
+.time-period-btn:hover {
+    background: rgba(102, 126, 234, 0.1) !important;
+    color: #667eea !important;
+    transform: translateY(-1px);
+}
+
+.time-period-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.time-period-btn:first-child {
+    border-radius: 8px 0 0 8px !important;
+}
+
+.time-period-btn:last-child {
+    border-radius: 0 8px 8px 0 !important;
+}
+
+/* Dark mode time period buttons */
+body.dark .time-period-btn,
+body.dark-mode .time-period-btn,
+html.dark .time-period-btn,
+[data-theme="dark"] .time-period-btn {
+    background: rgba(55, 65, 81, 0.9) !important;
+    color: #D1D5DB !important;
+}
+
+body.dark .time-period-btn:hover,
+body.dark-mode .time-period-btn:hover,
+html.dark .time-period-btn:hover,
+[data-theme="dark"] .time-period-btn:hover {
+    background: rgba(139, 92, 246, 0.2) !important;
+    color: #A78BFA !important;
+}
+
+body.dark .time-period-btn.active,
+body.dark-mode .time-period-btn.active,
+html.dark .time-period-btn.active,
+[data-theme="dark"] .time-period-btn.active {
+    background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%) !important;
+    color: white !important;
+}
+
+/* Loading indicator styles */
+.chart-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    border-radius: 15px;
+}
+
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(102, 126, 234, 0.2);
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.loading-spinner span {
+    color: #667eea;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.loading-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: #EF4444;
+}
+
+.loading-error i {
+    font-size: 24px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Dark mode loading overlay */
+body.dark .chart-loading-overlay,
+body.dark-mode .chart-loading-overlay,
+html.dark .chart-loading-overlay,
+[data-theme="dark"] .chart-loading-overlay {
+    background: rgba(31, 41, 55, 0.9);
+}
+
+body.dark .loading-spinner span,
+body.dark-mode .loading-spinner span,
+html.dark .loading-spinner span,
+[data-theme="dark"] .loading-spinner span {
+    color: #A78BFA;
+}
+
+body.dark .spinner,
+body.dark-mode .spinner,
+html.dark .spinner,
+[data-theme="dark"] .spinner {
+    border: 3px solid rgba(139, 92, 246, 0.2);
+    border-top: 3px solid #8B5CF6;
+}
+
+/* Responsive positioning for time period buttons */
+@media (max-width: 768px) {
+    .time-period-buttons {
+        position: static !important;
+        margin-top: 15px !important;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .time-period-btn {
+        font-size: 0.7rem !important;
+        padding: 5px 8px !important;
+        min-width: 32px !important;
+    }
+    
+    .box-header {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .time-period-buttons {
+        margin-top: 10px !important;
+    }
+    
+    .time-period-btn {
+        font-size: 0.65rem !important;
+        padding: 4px 6px !important;
+        min-width: 28px !important;
+    }
+}
+
 /* Animation for page load */
 @keyframes slideInUp {
     from {
@@ -789,14 +962,19 @@ html.dark .modern-tabs-container,
                                 <div class="grid grid-cols-1 gap-6">
                                     <div class="col-span-1">
                                         <div class="box custom-box chart-container">
-                                            <div class="box-header">
-                                                <div class="box-title" style="font-size: 1.2rem; font-weight: 600; color: #374151;">
+                                            <div class="box-header" style="position: relative;">
+                                                <div class="box-title" style="font-size: 1.2rem; font-weight: 500; color: #374151;">
                                                     {{stock_data.stock_name}} Stock Price Performance (TL)
                                                 </div>
-                                                <div class="flex gap-2 items-center">
-                                                    <span class="badge bg-success-transparent text-success rounded-pill">TL</span>
-                                                    <span class="badge bg-primary-transparent text-primary rounded-pill">Daily Close</span>
-                                                    <span class="badge bg-info-transparent text-info rounded-pill">Responsive</span>
+                                                <!-- Time period buttons positioned absolutely -->
+                                                <div class="time-period-buttons" style="position: absolute; top: 10px; right: 15px;">
+                                                    <div class="btn-group" role="group">
+                                                        <button type="button" class="btn btn-outline-primary btn-sm time-period-btn" data-period="1d">1D</button>
+                                                        <button type="button" class="btn btn-outline-primary btn-sm time-period-btn" data-period="1w">1W</button>
+                                                        <button type="button" class="btn btn-outline-primary btn-sm time-period-btn" data-period="1m">1M</button>
+                                                        <button type="button" class="btn btn-outline-primary btn-sm time-period-btn" data-period="1y">1Y</button>
+                                                        <button type="button" class="btn btn-outline-primary btn-sm time-period-btn active" data-period="all">ALL</button>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="box-body p-0">
@@ -812,16 +990,48 @@ html.dark .modern-tabs-container,
                                                     // Check multiple possible dark mode indicators
                                                     const bodyClasses = document.body.className;
                                                     const htmlClasses = document.documentElement.className;
+                                                    const bodyStyle = window.getComputedStyle(document.body);
+                                                    const htmlStyle = window.getComputedStyle(document.documentElement);
                                                     
-                                                    return (
+                                                    // Check for dark mode classes
+                                                    const hasDarkClass = (
                                                         bodyClasses.includes('dark') ||
                                                         bodyClasses.includes('dark-mode') ||
                                                         htmlClasses.includes('dark') ||
                                                         htmlClasses.includes('dark-mode') ||
-                                                        document.querySelector('[data-theme="dark"]') ||
-                                                        localStorage.getItem('theme') === 'dark' ||
-                                                        localStorage.getItem('darkMode') === 'true'
+                                                        document.querySelector('[data-theme="dark"]') !== null
                                                     );
+                                                    
+                                                    // Check for dark mode in storage
+                                                    const hasDarkStorage = (
+                                                        localStorage.getItem('theme') === 'dark' ||
+                                                        localStorage.getItem('darkMode') === 'true' ||
+                                                        localStorage.getItem('dark_mode') === 'true' ||
+                                                        sessionStorage.getItem('theme') === 'dark'
+                                                    );
+                                                    
+                                                    // Check computed styles for dark background colors
+                                                    const bodyBg = bodyStyle.backgroundColor;
+                                                    const htmlBg = htmlStyle.backgroundColor;
+                                                    const isDarkBg = (
+                                                        bodyBg.includes('rgb(17, 24, 39)') ||  // gray-900
+                                                        bodyBg.includes('rgb(31, 41, 55)') ||  // gray-800
+                                                        bodyBg.includes('rgb(55, 65, 81)') ||  // gray-700
+                                                        htmlBg.includes('rgb(17, 24, 39)') ||
+                                                        htmlBg.includes('rgb(31, 41, 55)') ||
+                                                        htmlBg.includes('rgb(55, 65, 81)')
+                                                    );
+                                                    
+                                                    const isDark = hasDarkClass || hasDarkStorage || isDarkBg;
+                                                    console.log('Dark mode detection:', {
+                                                        hasDarkClass,
+                                                        hasDarkStorage, 
+                                                        isDarkBg,
+                                                        bodyBg,
+                                                        finalResult: isDark
+                                                    });
+                                                    
+                                                    return isDark;
                                                 }
                                                 
                                                 // Monitor for dark mode changes in existing system
@@ -968,9 +1178,182 @@ html.dark .modern-tabs-container,
                                                     }
                                                 }
                                                 
+                                                // Time period button functionality
+                                                function initializeTimePeriodButtons() {
+                                                    const buttons = document.querySelectorAll('.time-period-btn');
+                                                    buttons.forEach(button => {
+                                                        button.addEventListener('click', function() {
+                                                            const period = this.getAttribute('data-period');
+                                                            const symbol = '{{ symbol }}';
+                                                            
+                                                            // Update active button
+                                                            buttons.forEach(btn => btn.classList.remove('active'));
+                                                            this.classList.add('active');
+                                                            
+                                                            // Update chart with new data
+                                                            updateStockChart(symbol, period);
+                                                        });
+                                                    });
+                                                }
+                                                
+                                                function updateStockChart(symbol, period) {
+                                                    const chartDiv = document.querySelector('#stock-price-chart .plotly-graph-div');
+                                                    if (!chartDiv || !window.Plotly) return;
+                                                    
+                                                    // Show loading indicator
+                                                    showLoadingIndicator(chartDiv);
+                                                    
+                                                    // Fetch new data
+                                                    fetch(`/api/stock-data/${symbol}/?period=${period}`)
+                                                        .then(response => response.json())
+                                                        .then(data => {
+                                                            if (data.success) {
+                                                                // Update chart with new data
+                                                                const isDark = detectExistingDarkMode();
+                                                                const colors = getDarkModeColors(isDark);
+                                                                
+                                                                const update = {
+                                                                    x: [data.data.dates],
+                                                                    y: [data.data.prices],
+                                                                    'line.color': [colors.line_color],
+                                                                    'fillcolor': [colors.fill_color],
+                                                                    'hoverlabel.bgcolor': [colors.hover_bg],
+                                                                    'hovertemplate': [`<b>%{x}</b><br><b>Close Price:</b> ₺%{y:,.2f}<br><b>Symbol:</b> ${symbol}<br><extra></extra>`]
+                                                                };
+                                                                
+                                                                Plotly.restyle(chartDiv, update, [0]);
+                                                                
+                                                                // Update chart layout for better time period display
+                                                                const layoutUpdate = getLayoutForPeriod(period, isDark);
+                                                                Plotly.relayout(chartDiv, layoutUpdate);
+                                                                
+                                                                // Apply dynamic Y-axis scaling
+                                                                applyDynamicYAxisScaling(chartDiv, data.data.prices);
+                                                                
+                                                                // Remove loading indicator
+                                                                const overlay = chartDiv.querySelector('.chart-loading-overlay');
+                                                                if (overlay) overlay.remove();
+                                                                
+                                                            } else {
+                                                                console.error('Error fetching data:', data.error);
+                                                                showError(chartDiv, data.error);
+                                                            }
+                                                        })
+                                                        .catch(error => {
+                                                            console.error('Fetch error:', error);
+                                                            showError(chartDiv, 'Failed to load data');
+                                                        });
+                                                }
+                                                
+                                                function getLayoutForPeriod(period, isDark) {
+                                                    const colors = getDarkModeColors(isDark);
+                                                    const baseLayout = {
+                                                        'plot_bgcolor': colors.plot_bg,
+                                                        'paper_bgcolor': colors.paper_bg,
+                                                        'font.color': colors.text_color,
+                                                        'xaxis.gridcolor': colors.grid_color,
+                                                        'yaxis.gridcolor': colors.grid_color,
+                                                        'xaxis.linecolor': colors.grid_color,
+                                                        'yaxis.linecolor': colors.grid_color,
+                                                        'xaxis.tickfont.color': colors.text_color,
+                                                        'yaxis.tickfont.color': colors.text_color
+                                                    };
+                                                    
+                                                    // Adjust tick format based on period
+                                                    if (period === '1d') {
+                                                        baseLayout['xaxis.tickformat'] = '%H:%M';
+                                                        baseLayout['xaxis.title'] = 'Time';
+                                                    } else if (period === '1w') {
+                                                        baseLayout['xaxis.tickformat'] = '%m-%d %H:%M';
+                                                        baseLayout['xaxis.title'] = 'Date & Time';
+                                                    } else if (period === 'all') {
+                                                        baseLayout['xaxis.tickformat'] = '%Y-%m';
+                                                        baseLayout['xaxis.title'] = 'Date';
+                                                    } else {
+                                                        baseLayout['xaxis.tickformat'] = '%Y-%m-%d';
+                                                        baseLayout['xaxis.title'] = 'Date';
+                                                    }
+                                                    
+                                                    return baseLayout;
+                                                }
+                                                
+                                                function applyDynamicYAxisScaling(chartDiv, prices) {
+                                                    if (!chartDiv || !window.Plotly || !prices || prices.length === 0) return;
+                                                    
+                                                    const minPrice = Math.min(...prices);
+                                                    const maxPrice = Math.max(...prices);
+                                                    const priceRange = maxPrice - minPrice;
+                                                    
+                                                    // Calculate dynamic padding based on price range
+                                                    let padding;
+                                                    if (priceRange < 1) {
+                                                        // For very small ranges (like flat lines), use percentage-based padding
+                                                        padding = Math.max(priceRange * 0.5, maxPrice * 0.02);
+                                                    } else {
+                                                        // For normal ranges, use 8-15% padding based on volatility
+                                                        const volatility = priceRange / minPrice;
+                                                        if (volatility < 0.05) {
+                                                            // Low volatility - use more padding to show variations
+                                                            padding = priceRange * 0.15;
+                                                        } else {
+                                                            // Normal/high volatility - standard padding
+                                                            padding = priceRange * 0.08;
+                                                        }
+                                                    }
+                                                    
+                                                    const yMin = minPrice - padding;
+                                                    const yMax = maxPrice + padding;
+                                                    
+                                                    console.log(`Dynamic Y-axis: ${yMin.toFixed(2)} to ${yMax.toFixed(2)} (range: ${priceRange.toFixed(2)}, padding: ${padding.toFixed(2)})`);
+                                                    
+                                                    // Apply the new Y-axis range
+                                                    Plotly.relayout(chartDiv, {
+                                                        'yaxis.range': [yMin, yMax],
+                                                        'yaxis.autorange': false
+                                                    });
+                                                }
+                                                
+                                                function showLoadingIndicator(chartDiv) {
+                                                    // Add loading overlay
+                                                    const loadingOverlay = document.createElement('div');
+                                                    loadingOverlay.className = 'chart-loading-overlay';
+                                                    loadingOverlay.innerHTML = `
+                                                        <div class="loading-spinner">
+                                                            <div class="spinner"></div>
+                                                            <span>Loading...</span>
+                                                        </div>
+                                                    `;
+                                                    
+                                                    chartDiv.style.position = 'relative';
+                                                    chartDiv.appendChild(loadingOverlay);
+                                                    
+                                                    // Remove loading indicator after a timeout (in case of errors)
+                                                    setTimeout(() => {
+                                                        const overlay = chartDiv.querySelector('.chart-loading-overlay');
+                                                        if (overlay) overlay.remove();
+                                                    }, 10000);
+                                                }
+                                                
+                                                function showError(chartDiv, message) {
+                                                    const overlay = chartDiv.querySelector('.chart-loading-overlay');
+                                                    if (overlay) {
+                                                        overlay.innerHTML = `
+                                                            <div class="loading-error">
+                                                                <i class="ri-error-warning-line"></i>
+                                                                <span>Error: ${message}</span>
+                                                            </div>
+                                                        `;
+                                                        setTimeout(() => overlay.remove(), 3000);
+                                                    }
+                                                }
+                                                
                                                 document.addEventListener('DOMContentLoaded', function() {
                                                     // Start watching for theme changes
                                                     watchForThemeChanges();
+                                                    
+                                                    // Initialize time period buttons
+                                                    initializeTimePeriodButtons();
+                                                    
                                                     // Wait for charts to load completely
                                                     setTimeout(() => {
                                                         initializeCharts();

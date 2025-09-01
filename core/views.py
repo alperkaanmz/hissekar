@@ -1,10 +1,12 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 import yfinance as yf
 import pandas as pd
 import plotly.graph_objects as go
 from plotly.io import to_html
-from datetime import datetime
+from datetime import datetime, timedelta
 from .models import Company
+import json
 
 def format_market_cap(market_cap):
     if market_cap is None:
@@ -517,9 +519,14 @@ def profile(request, symbol):
         ceo = "N/A"
         cfo = "N/A"
 
-        # For now, default to light mode charts
-        # The charts will adapt based on your existing dark mode CSS
-        dark_mode = False
+        # Detect dark mode from various sources
+        dark_mode = (
+            request.session.get('dark_mode') == 'true' or
+            request.COOKIES.get('dark_mode') == 'true' or
+            request.COOKIES.get('theme') == 'dark' or
+            request.session.get('theme') == 'dark' or
+            request.META.get('HTTP_THEME') == 'dark'
+        )
         
         # Get stock data for chart
         hist_df_tl, info = retrieve_stock_data(ticker)
@@ -625,4 +632,65 @@ def apexcolumncharts (request):
 
 def apexlinecharts (request):     
     return render(request, 'apexlinecharts.html')
+
+def get_stock_data_ajax(request, symbol):
+    """AJAX endpoint to get stock data for different time periods"""
+    if request.method != 'GET':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+    
+    period = request.GET.get('period', '1y')
+    
+    # Map periods to yfinance periods and intervals
+    period_mapping = {
+        '1d': {'period': '1d', 'interval': '1m'},
+        '1w': {'period': '5d', 'interval': '15m'}, 
+        '1m': {'period': '1mo', 'interval': '1d'},
+        '1y': {'period': '1y', 'interval': '1d'},
+        'all': {'period': '5y', 'interval': '1d'}  # 5 years of data
+    }
+    
+    if period not in period_mapping:
+        return JsonResponse({'error': 'Invalid period'}, status=400)
+    
+    try:
+        ticker = yf.Ticker(symbol)
+        
+        # Get historical data
+        hist_data = ticker.history(
+            period=period_mapping[period]['period'],
+            interval=period_mapping[period]['interval']
+        )
+        
+        if hist_data.empty:
+            return JsonResponse({'error': 'No data available'}, status=404)
+        
+        # Reset index to get dates as column
+        hist_data = hist_data.reset_index()
+        
+        # Convert to lists for JSON serialization
+        dates = hist_data['Datetime'].dt.strftime('%Y-%m-%d %H:%M:%S').tolist() if 'Datetime' in hist_data.columns else hist_data['Date'].dt.strftime('%Y-%m-%d').tolist()
+        prices = hist_data['Close'].round(2).tolist()
+        
+        # Calculate price change
+        if len(prices) > 1:
+            price_change = prices[-1] - prices[-2] if len(prices) > 1 else 0
+            price_change_pct = (price_change / prices[-2]) * 100 if prices[-2] != 0 else 0
+        else:
+            price_change = 0
+            price_change_pct = 0
+        
+        return JsonResponse({
+            'success': True,
+            'data': {
+                'dates': dates,
+                'prices': prices,
+                'current_price': prices[-1] if prices else 0,
+                'price_change': round(price_change, 2),
+                'price_change_pct': round(price_change_pct, 2),
+                'period': period
+            }
+        })
+        
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
 

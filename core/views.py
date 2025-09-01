@@ -121,59 +121,6 @@ def retrieve_stock_data(ticker: str, start_date: str = "2020-01-01", end_date: s
 
     return hist_df, ticker_info
 
-def convert_stock_prices_to_usd(ticker: str, start_date: str = "2020-01-01", end_date: str = datetime.now().strftime("%Y-%m-%d")):
-    hist_df = yf.download(ticker, start=start_date, end=end_date)
-
-    #usd/try change data
-    usd_try_data = yf.download("USDTRY=X", start=start_date, end=end_date)['Close']
-
-    tl_prices = hist_df['Close']
-
-    #tl to usd
-    tl_to_usd_prices = tl_prices / usd_try_data
-
-    return tl_to_usd_prices
-
-def create_line_chart_with_usd_prices(symbol: str, start_date: str = "2020-01-01", end_date: str = datetime.now().strftime("%Y-%m-%d")):
-    #at first take the tl data
-    hist_df = yf.download(symbol, start=start_date, end=end_date)
-
-    #converting usd
-    usd_stock_prices = convert_stock_prices_to_usd(symbol, start_date, end_date)
-
-    fig = go.Figure()
-
-    fig.add_trace(go.Scatter(x=hist_df.index, y=usd_stock_prices, mode='lines', name='Close (USD)',
-                             hovertemplate='<b>Date</b>: %{x|%d-%m-%Y}<br><b>Price (USD)</b>: $%{y:.2f}<extra></extra>',
-                             fill='tozeroy', 
-                             fillcolor='rgba(147, 112, 219, 0.2)',
-                             line=dict(color='#9370DB')))
-    fig.update_layout(
-        xaxis_title="Date",
-        yaxis_title="Price",
-        template="plotly_white",
-        plot_bgcolor="white",
-        margin={"t": 60, "l": 0, "r": 0, "b": 0},
-        height=500,  
-        width=1570, 
-    )
-
-    fig.update_xaxes(
-        showgrid=True, 
-        gridcolor="rgba(0, 0, 0, 0.1)",  
-        linecolor="gray",  
-        linewidth=2, 
-    )
-
-    fig.update_yaxes(
-        showgrid=True, 
-        gridcolor="rgba(0, 0, 0, 0.1)", 
-        linecolor="gray",  
-        linewidth=2, 
-    )
-
-    return fig
-
 def create_line_chart(hist_df: pd.DataFrame):
     fig = go.Figure(data=[
         go.Scatter(
@@ -191,8 +138,8 @@ def create_line_chart(hist_df: pd.DataFrame):
     fig.update_layout(
         xaxis_title="Date",
         yaxis_title="Price",
-        height=500,  
-        width=1570, 
+        height=600,  
+        width=1300, 
         plot_bgcolor="white",
         margin={"t":0, "l":0, "r":0, "b":0}
     )
@@ -412,18 +359,13 @@ def profile(request, symbol):
         ceo = "N/A"
         cfo = "N/A"
 
-        hist_df = yf.download(symbol, start="2020-01-01", end=datetime.now().strftime("%Y-%m-%d"))
-        usd_chart = create_line_chart_with_usd_prices(symbol)
-        
+        hist_df = yf.download(symbol, start="2020-01-01", end=datetime.now().strftime("%Y-%m-%d"))        
         hist_df_tl, info = retrieve_stock_data(ticker)
         linechart_fig = create_line_chart(hist_df_tl)
 
         chart_div = to_html(linechart_fig, full_html=False, include_plotlyjs="cdn")
-        usd_chart_div = to_html(usd_chart, full_html=False, include_plotlyjs="cdn")
-
         p1, p2 = hist_df["Close"].values[-1], hist_df["Close"].values[-2]
         change, prcnt_change = (p2-p1), (p2-p1) / p1
-        # USD/TRY döviz kurunu alın (TL cinsinden)
         columnchart_fig = generate_net_debt_change_chart(symbol)
         chart_netdebt_div = to_html(columnchart_fig, full_html=False, include_plotlyjs="cdn")
 
@@ -467,7 +409,6 @@ def profile(request, symbol):
             "ceo": ceo,
             "cfo": cfo,
             "chart_div": chart_div,
-            "usd_chart_div": usd_chart_div,
             "chart_netdebt_div": chart_netdebt_div,
             "cash_flow": cash_flow,
             "income_data": income_data,
@@ -477,7 +418,7 @@ def profile(request, symbol):
         }
 
         # Verileri şablona gönderin
-        return render(request, 'profile.html', {'symbol': symbol, 'stock_data': stock_data})
+        return render(request, 'profile_improved.html', {'symbol': symbol, 'stock_data': stock_data})
     else:
         # Geçersiz sembol durumunda hata sayfasına yönlendirme
         return render(request, 'error.html', {'error_message': 'Geçersiz sembol: {}'.format(symbol)})
@@ -487,6 +428,9 @@ def tables (request):
 
 def tables2 (request): 
     return render(request, 'tables2.html')
+
+def datatables_improved(request):
+    return render(request, 'datatables_improved.html')
 
 def apexcolumncharts (request): 
     return render(request, 'apexcolumncharts.html') 

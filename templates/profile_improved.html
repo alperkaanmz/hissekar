@@ -1,32 +1,209 @@
 {% extends 'components/base.html' %} {% load static %} {% block styles %}
 <link rel="stylesheet" href="{% static 'assets/libs/glightbox/css/glightbox.min.css'%}" />
+
 <style>
-    /* Plotly grafiği için özel stil */
-    #candlestick-chart-container {
-        width: 100% !important;
-        height: 600px !important;
-        overflow: visible !important;
+/* Modern Enhancements */
+.box {
+    border-radius: 15px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
+    border: 1px solid rgba(0,0,0,0.05) !important;
+}
+
+.main-profile-cover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border-radius: 15px 15px 0 0 !important;
+}
+
+.modern-metric-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    padding: 20px;
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    text-align: center;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.modern-metric-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.modern-metric-value {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.modern-metric-label {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.table-responsive table {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+}
+
+/* Modern Tab Styling */
+.modern-tabs-container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+.modern-tab-button {
+    background: transparent !important;
+    color: #6b7280 !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 12px 20px !important;
+    margin: 0 4px !important;
+    font-weight: 500 !important;
+    font-size: 0.875rem !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    min-height: 44px !important;
+    white-space: nowrap !important;
+}
+
+.modern-tab-button:hover {
+    background: rgba(139, 92, 246, 0.1) !important;
+    color: #8b5cf6 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2) !important;
+}
+
+.modern-tab-button.active,
+.modern-tab-button[aria-selected="true"] {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%) !important;
+    color: white !important;
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4) !important;
+    transform: translateY(-1px) !important;
+}
+
+.modern-tab-button.active::before,
+.modern-tab-button[aria-selected="true"]::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.modern-tab-button i {
+    font-size: 1rem !important;
+    opacity: 0.8;
+}
+
+.modern-tab-button.active i,
+.modern-tab-button[aria-selected="true"] i {
+    opacity: 1;
+}
+
+/* Tab responsive */
+@media (max-width: 768px) {
+    .modern-tabs-container {
+        padding: 6px;
+        border-radius: 12px;
     }
     
-    /* Modebar (grafiğin araç çubuğu) konumu ve görünümü için stil */
-    .js-plotly-plot .plotly .modebar {
-        top: auto !important;
-        bottom: 10px !important;
-        background-color: rgba(255,255,255,0.7) !important;
-        padding: 5px !important;
-        border-radius: 4px !important;
+    .modern-tab-button {
+        padding: 10px 16px !important;
+        font-size: 0.8125rem !important;
+        min-height: 40px !important;
     }
     
-    /* Grafik boyutunun korunması için stil */
-    .js-plotly-plot, .plotly, .plot-container {
-        width: 100% !important;
+    .modern-tab-button span {
+        display: none;
     }
     
-    /* Zaman aralığı butonları için aktif stil */
-    .time-range-button-active {
-        background-color: #4F46E5 !important;
+    .modern-tab-button i {
+        margin: 0 !important;
     }
+}
+
+.table thead {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+}
+
+.table thead th {
+    border: none !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    font-size: 0.8rem !important;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(102, 126, 234, 0.05) !important;
+    transform: scale(1.01);
+    transition: all 0.2s ease;
+}
+
+.nav-tabs .nav-link {
+    border-radius: 25px !important;
+    margin: 0 5px !important;
+    transition: all 0.3s ease !important;
+}
+
+.nav-tabs .nav-link.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    border-color: transparent !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3) !important;
+}
+
+/* Chart containers */
+.chart-container {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin: 20px 0;
+}
+
+/* Animation for page load */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.box {
+    animation: slideInUp 0.6s ease-out;
+}
+
+.box:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.box:nth-child(3) {
+    animation-delay: 0.2s;
+}
 </style>
+
 {% endblock %} {% block content %}
 
 <div class="main-content">
@@ -164,49 +341,51 @@
             <div class="xl:col-span-12 col-span-12">
                 <div class="box">
                     <div class="box-body !p-0">
-                        <div
-                            class="!p-4 border-b dark:border-defaultborder/10 border-dashed md:flex items-center justify-between">
-                            <nav class="-mb-0.5 sm:flex md:space-x-6 rtl:space-x-reverse pb-2">
-                                <a class="w-full sm:w-auto flex hs-tab-active:font-semibold hs-tab-active:text-white hs-tab-active:bg-primary rounded-md py-2 px-4 text-primary text-sm active"
+                        <div class="!p-6">
+                            <nav class="modern-tabs-container flex flex-wrap gap-2">
+                                <a class="modern-tab-button active"
                                     href="javascript:void(0);" id="profitability-tab"
                                     data-hs-tab="#profitability-tab-pane" aria-controls="profitability-tab-pane">
-                                    <i class="ri-bar-chart-2-line align-middle inline-block me-1"></i>Profitability
-                                    Measurements</a>
+                                    <i class="ri-bar-chart-2-line"></i>
+                                    <span>Profitability Measurements</span></a>
 
-                                <a class="w-full sm:w-auto flex hs-tab-active:font-semibold hs-tab-active:text-white hs-tab-active:bg-primary rounded-md py-2 px-4 text-primary text-sm"
+                                <a class="modern-tab-button"
                                     href="javascript:void(0);" id="ratios-tab" data-hs-tab="#ratios-tab-pane"
                                     aria-controls="ratios-tab-pane">
-                                    <i class="ri-calculator-line align-middle inline-block me-1"></i>Ratios</a>
+                                    <i class="ri-calculator-line"></i>
+                                    <span>Ratios</span></a>
 
-                                <a class="w-full sm:w-auto flex hs-tab-active:font-semibold hs-tab-active:text-white hs-tab-active:bg-primary rounded-md py-2 px-4 text-primary text-sm"
+                                <a class="modern-tab-button"
                                     href="javascript:void(0);" id="net-debt-tab" data-hs-tab="#net-debt-tab-pane"
                                     aria-controls="net-debt-tab-pane">
-                                    <i class="ri-pie-chart-line align-middle inline-block me-1"></i>Net Debt
-                                    Analysis</a>
+                                    <i class="ri-pie-chart-line"></i>
+                                    <span>Net Debt Analysis</span></a>
 
-                                <a class="w-full sm:w-auto flex hs-tab-active:font-semibold hs-tab-active:text-white hs-tab-active:bg-primary rounded-md py-2 px-4 text-primary text-sm"
+                                <a class="modern-tab-button"
                                     href="javascript:void(0);" id="price-tab" data-hs-tab="#price-tab-pane"
                                     aria-controls="price-tab-pane">
-                                    <i class="ri-coin-line align-middle inline-block me-1"></i>Stock Price
-                                </a>
+                                    <i class="ri-coin-line"></i>
+                                    <span>Stock Price TL</span></a>
 
-                                <a class="w-full sm:w-auto flex hs-tab-active:font-semibold hs-tab-active:text-white hs-tab-active:bg-primary rounded-md py-2 px-4 text-primary text-sm"
+
+
+                                <a class="modern-tab-button"
                                     href="javascript:void(0);" id="balance-sheet-tab"
                                     data-hs-tab="#balance-sheet-tab-pane" aria-controls="balance-sheet-tab-pane">
-                                    <i class="ri-file-list-3-line align-middle inline-block me-1"></i>Balance Sheet
-                                </a>
+                                    <i class="ri-file-list-3-line"></i>
+                                    <span>Balance Sheet</span></a>
 
-                                <a class="w-full sm:w-auto flex hs-tab-active:font-semibold hs-tab-active:text-white hs-tab-active:bg-primary rounded-md py-2 px-4 text-primary text-sm"
+                                <a class="modern-tab-button"
                                     href="javascript:void(0);" id="income-statement-tab"
                                     data-hs-tab="#income-statement-tab-pane" aria-controls="income-statement-tab-pane">
-                                    <i class="ri-bar-chart-line align middle inline-block me-1"></i>Income Statement
-                                </a>
-                                <a class="w-full sm:w-auto flex hs-tab-active:font-semibold hs-tab-active:text-white hs-tab-active:bg-primary rounded-md py-2 px-4 text-primary text-sm"
+                                    <i class="ri-bar-chart-line"></i>
+                                    <span>Income Statement</span></a>
+                                <a class="modern-tab-button"
                                     href="javascript:void(0);" id="cashflow-statement-tab"
                                     data-hs-tab="#cashflow-statement-tab-pane"
-                                    aria-controls="income-statement-tab-pane">
-                                    <i class="ri-bar-chart-line align middle inline-block me-1"></i>Cash Flow Statement
-                                </a>
+                                    aria-controls="cashflow-statement-tab-pane">
+                                    <i class="ri-bar-chart-line"></i>
+                                    <span>Cash Flow Statement</span></a>
                             </nav>
                         </div>
                         <div class="!p-4">
@@ -459,7 +638,6 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             <div class="!p-0 !border-0 hidden" id="net-debt-tab-pane" role="tabpanel"
                                 aria-labelledby="net-debt-tab">
                                 <div class="grid grid-cols-12 gap-x-6">
@@ -480,24 +658,78 @@
                                 aria-labelledby="price-tab">
                                 <div class="grid grid-cols-16 sm:gap-x-6 gap-y-6">
                                     <div class="xl:col-span-6 col-span-16">
-                                        <div class="box custom-box">
+                                        <div class="box custom-box chart-container" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
                                             <div class="box-header">
-                                                <div class="box-title">{{stock_data.stock_name}}'s Stock Price
+                                                <div class="box-title" style="font-size: 1.2rem; font-weight: 600;">
+                                                    {{stock_data.stock_name}} Stock Price Performance (TL)
                                                 </div>
-                                                <!-- Zaman aralığı seçme butonları -->
-                                                <div class="time-range-buttons mt-2 mb-2">
-                                                    <a href="?period=1d" class="inline-flex items-center px-3 py-1 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-md mr-2">1G</a>
-                                                    <a href="?period=1w" class="inline-flex items-center px-3 py-1 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-md mr-2">1H</a>
-                                                    <a href="?period=1m" class="inline-flex items-center px-3 py-1 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-md mr-2">1A</a>
-                                                    <a href="?period=1y" class="inline-flex items-center px-3 py-1 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-md mr-2">1Y</a>
-                                                    <a href="?period=max" class="inline-flex items-center px-3 py-1 text-sm font-medium text-white bg-purple-600 hover:bg-purple-700 rounded-md">Tümü</a>
+                                                <div class="flex gap-2 items-center">
+                                                    <span class="badge bg-success-transparent text-success rounded-pill">TL</span>
+                                                    <span class="badge bg-primary-transparent text-primary rounded-pill">Daily Close</span>
                                                 </div>
                                             </div>
                                             <div class="box-body">
-                                                <div id="candlestick-chart-container"
-                                                    style="width: 100%; height: 600px;">
+                                                <div id="stock-price-chart" 
+                                                     style="width: 100%; height: 600px; border-radius: 15px; overflow: hidden;">
                                                     {{stock_data.chart_div|safe}}
                                                 </div>
+                                                
+                                                <script>
+                                                document.addEventListener('DOMContentLoaded', function() {
+                                                    setTimeout(function() {
+                                                        // Grafik elementini bul
+                                                        const chartDiv = document.querySelector('#stock-price-chart .plotly-graph-div');
+                                                        
+                                                        if (chartDiv) {
+                                                            // Relayout event listener ekle
+                                                            chartDiv.on('plotly_relayout', function(eventdata) {
+                                                                // Eğer X ekseni range değişikliği varsa
+                                                                if (eventdata['xaxis.range[0]'] && eventdata['xaxis.range[1]']) {
+                                                                    const startDate = new Date(eventdata['xaxis.range[0]']);
+                                                                    const endDate = new Date(eventdata['xaxis.range[1]']);
+                                                                    
+                                                                    // Mevcut veriyi al
+                                                                    const data = chartDiv.data[0];
+                                                                    if (data && data.x && data.y) {
+                                                                        let visibleY = [];
+                                                                        
+                                                                        // Görünür aralıktaki Y değerlerini topla
+                                                                        for (let i = 0; i < data.x.length; i++) {
+                                                                            const dataDate = new Date(data.x[i]);
+                                                                            if (dataDate >= startDate && dataDate <= endDate && data.y[i] !== null) {
+                                                                                visibleY.push(data.y[i]);
+                                                                            }
+                                                                        }
+                                                                        
+                                                                        // Y ekseni aralığını ayarla
+                                                                        if (visibleY.length > 0) {
+                                                                            const minY = Math.min(...visibleY);
+                                                                            const maxY = Math.max(...visibleY);
+                                                                            const padding = (maxY - minY) * 0.05; // %5 padding
+                                                                            
+                                                                            // Minimum padding garantisi
+                                                                            const finalPadding = Math.max(padding, (maxY * 0.02));
+                                                                            
+                                                                            setTimeout(function() {
+                                                                                Plotly.relayout(chartDiv, {
+                                                                                    'yaxis.range': [minY - finalPadding, maxY + finalPadding]
+                                                                                });
+                                                                            }, 100);
+                                                                        }
+                                                                    }
+                                                                }
+                                                            });
+                                                            
+                                                            // Modebar butonlarını taşı
+                                                            const modebar = chartDiv.querySelector('.modebar');
+                                                            if (modebar) {
+                                                                modebar.style.left = '10px';
+                                                                modebar.style.top = '60px';
+                                                            }
+                                                        }
+                                                    }, 1000);
+                                                });
+                                                </script>
                                             </div>
                                         </div>
                                     </div>

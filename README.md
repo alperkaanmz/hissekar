@@ -85,19 +85,3 @@ hissekar/
 ### Data Tables
 - Filtrelenebilir şirket listesi
 - Excel/PDF export özelliği
-
-## 🤝 Katkıda Bulunma
-
-1. Fork edin
-2. Feature branch oluşturun (`git checkout -b feature/AmazingFeature`)
-3. Commit yapın (`git commit -m 'Add some AmazingFeature'`)
-4. Push edin (`git push origin feature/AmazingFeature`)
-5. Pull Request açın
-
-## 📄 Lisans
-
-Bu proje MIT lisansı altında lisanslanmıştır.
-
-## 📞 İletişim
-
-Proje Link: [https://github.com/yourusername/hissekar](https://github.com/yourusername/hissekar)

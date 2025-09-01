@@ -22,7 +22,7 @@ Django tabanlı modern finansal analiz ve hisse senedi takip platformu.
 
 1. **Repository'yi klonlayın:**
 ```bash
-git clone <your-repo-url>
+git clone "https://github.com/alperkaanmz/hissekar"
 cd hissekar
 ```
 

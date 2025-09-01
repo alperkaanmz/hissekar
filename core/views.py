@@ -121,41 +121,100 @@ def retrieve_stock_data(ticker: str, start_date: str = "2020-01-01", end_date: s
 
     return hist_df, ticker_info
 
-def create_line_chart(hist_df: pd.DataFrame):
+def create_line_chart(hist_df: pd.DataFrame, symbol=None, dark_mode=False):
+    # Define colors based on theme
+    if dark_mode:
+        line_color = '#8B5CF6'  # Purple for dark mode
+        fill_color = 'rgba(139, 92, 246, 0.2)'
+        plot_bg = 'rgba(17, 24, 39, 0.8)'
+        paper_bg = 'rgba(31, 41, 55, 1)'
+        grid_color = 'rgba(75, 85, 99, 0.4)'
+        line_grid_color = 'rgba(75, 85, 99, 0.6)'
+        text_color = '#F9FAFB'
+        spike_color = 'rgba(139, 92, 246, 0.8)'
+        hover_bg = 'rgba(139, 92, 246, 0.9)'
+    else:
+        line_color = '#667eea'
+        fill_color = 'rgba(102, 126, 234, 0.15)'
+        plot_bg = 'rgba(248, 250, 252, 0.6)'
+        paper_bg = 'white'
+        grid_color = 'rgba(156, 163, 175, 0.3)'
+        line_grid_color = 'rgba(156, 163, 175, 0.5)'
+        text_color = '#374151'
+        spike_color = 'rgba(102, 126, 234, 0.6)'
+        hover_bg = 'rgba(102, 126, 234, 0.9)'
+
     fig = go.Figure(data=[
         go.Scatter(
             x=hist_df['Date'],
             y=hist_df['Close'],
             mode='lines',
-            fill='tozeroy',  # Alanı x eksenine kadar boyayacak
-            fillcolor='rgba(147, 112, 219, 0.2)',  # Hafif mor renk
-            line=dict(color='#9370DB'),
+            fill='tozeroy',
+            fillcolor=fill_color,
+            line=dict(
+                color=line_color,
+                width=3,
+                shape='spline',
+                smoothing=0.3
+            ),
             name='Close Price',
-            hovertemplate='<b>Date</b>: %{x| %d-%m-%Y}<br><b>Price (TL)</b>: ₺%{y:.2f}<extra></extra>'
+            hovertemplate='<b>%{x|%d %b %Y}</b><br>' +
+                         '<b>Close Price:</b> ₺%{y:,.2f}<br>' +
+                         f'<b>Symbol:</b> {symbol}<br>' +
+                         '<extra></extra>' if symbol else '<extra></extra>',
+            hoverlabel=dict(
+                bgcolor=hover_bg,
+                bordercolor="white" if not dark_mode else "#1F2937",
+                font_color="white",
+                font_size=12
+            )
         )
     ])
     
     fig.update_layout(
-        xaxis_title="Date",
-        yaxis_title="Price",
-        height=600,  
-        width=1300, 
-        plot_bgcolor="white",
-        margin={"t":0, "l":0, "r":0, "b":0}
+        autosize=True,
+        plot_bgcolor=plot_bg,
+        paper_bgcolor=paper_bg,
+        font=dict(
+            family="Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+            size=12,
+            color=text_color
+        ),
+        margin=dict(l=20, r=20, t=20, b=20),
+        showlegend=False,
+        hovermode='x unified',
+        transition_duration=300
     )
    
     fig.update_xaxes(
-        showgrid=True,  # Dikey çizgileri göster
-        gridcolor="rgba(0, 0, 0, 0.1)",  # Çizgi rengi (hafif gri)
-        linecolor="gray",    # X eksen çizgisi rengi (siyah)
-        linewidth=2,  # X eksen çizgisi kalınlığı
+        showgrid=True,
+        gridcolor=grid_color,
+        gridwidth=1,
+        linecolor=line_grid_color,
+        linewidth=1,
+        tickfont=dict(size=11, color=text_color),
+        title_font=dict(size=12, color=text_color),
+        nticks=8,
+        showspikes=True,
+        spikecolor=spike_color,
+        spikethickness=1,
+        spikedash="dot"
     )
 
     fig.update_yaxes(
-        showgrid=True,  # Yatay çizgileri göster
-        gridcolor="rgba(0, 0, 0, 0.1)",  # Çizgi rengi (hafif gri)
-        linecolor="gray",    # X eksen çizgisi rengi (siyah)
-        linewidth=2,  # X eksen çizgisi kalınlığı
+        showgrid=True,
+        gridcolor=grid_color,
+        gridwidth=1,
+        linecolor=line_grid_color,
+        linewidth=1,
+        tickfont=dict(size=11, color=text_color),
+        title_font=dict(size=12, color=text_color),
+        tickformat=",.0f",
+        nticks=6,
+        showspikes=True,
+        spikecolor=spike_color,
+        spikethickness=1,
+        spikedash="dot"
     )
 
     return fig
@@ -201,7 +260,7 @@ def get_stock_name(symbol):
     stock_name = company_obj.name
     return stock_name
     
-def generate_net_debt_change_chart(symbol):
+def generate_net_debt_change_chart(symbol, dark_mode=False):
     # Sembole göre finansal verileri çek
     ticker = yf.Ticker(symbol)
     
@@ -251,29 +310,128 @@ def generate_net_debt_change_chart(symbol):
 
         
         fig = go.Figure()
-        colors = ["#845adf", "#f5b849", "#23b7e5"]
+        
+        # Define colors based on theme
+        if dark_mode:
+            colors = [
+                "rgba(139, 92, 246, 0.8)",   # Purple
+                "rgba(251, 191, 36, 0.8)",   # Amber
+                "rgba(34, 197, 94, 0.8)"     # Green
+            ]
+            hover_colors = [
+                "rgba(139, 92, 246, 1.0)",
+                "rgba(251, 191, 36, 1.0)", 
+                "rgba(34, 197, 94, 1.0)"
+            ]
+            plot_bg = 'rgba(17, 24, 39, 0.6)'
+            paper_bg = 'rgba(31, 41, 55, 1)'
+            text_color = '#F9FAFB'
+            grid_color = 'rgba(75, 85, 99, 0.3)'
+            line_color = 'rgba(75, 85, 99, 0.6)'
+            legend_bg = 'rgba(55, 65, 81, 0.9)'
+            legend_border = 'rgba(75, 85, 99, 0.5)'
+        else:
+            colors = [
+                "rgba(102, 126, 234, 0.8)",   # Primary blue
+                "rgba(245, 184, 73, 0.8)",    # Warm orange  
+                "rgba(34, 197, 94, 0.8)"      # Fresh green
+            ]
+            hover_colors = [
+                "rgba(102, 126, 234, 1.0)",
+                "rgba(245, 184, 73, 1.0)", 
+                "rgba(34, 197, 94, 1.0)"
+            ]
+            plot_bg = 'rgba(248, 250, 252, 0.4)'
+            paper_bg = 'white'
+            text_color = '#374151'
+            grid_color = 'rgba(156, 163, 175, 0.2)'
+            line_color = 'rgba(156, 163, 175, 0.5)'
+            legend_bg = 'rgba(255, 255, 255, 0.8)'
+            legend_border = 'rgba(156, 163, 175, 0.3)'
             
         for i, column in enumerate(separated_df.columns):
-            fig.add_trace(go.Bar(x=[f"202{i+1}" for i in range(len(separated_df))], y=separated_df[column], name=column,
-                                 marker_color=colors[i],
-                                 text=[f"{val:.1f}%" for val in separated_df[column]],
-                                 hoverinfo='text',
-                                 textposition='auto',
-                                 showlegend=True))
+            fig.add_trace(go.Bar(
+                x=[f"202{i+1}" for i in range(len(separated_df))], 
+                y=separated_df[column], 
+                name=column,
+                marker=dict(
+                    color=colors[i],
+                    line=dict(color=hover_colors[i], width=2),
+                    cornerradius=8
+                ),
+                text=[f"{val:.1f}%" for val in separated_df[column]],
+                textposition='auto',
+                textfont=dict(
+                    size=12,
+                    color="white",
+                    family="Inter, sans-serif"
+                ),
+                hovertemplate='<b>%{fullData.name}</b><br>' +
+                             '<b>Year:</b> %{x}<br>' +
+                             '<b>Change:</b> %{y:.1f}%<br>' +
+                             '<extra></extra>',
+                hoverlabel=dict(
+                    bgcolor=hover_colors[i],
+                    bordercolor="white",
+                    font_color="white"
+                ),
+                showlegend=True
+            ))
             
-        fig.update_layout(title='',
-                          xaxis=dict(title=''),
-                          yaxis=dict(title=''),
-                          plot_bgcolor='rgba(0,0,0,0)',
-                          barmode='group',
-                          height=500,  
-                          width=1570,)  
+        fig.update_layout(
+            title='',
+            autosize=True,
+            plot_bgcolor=plot_bg,
+            paper_bgcolor=paper_bg,
+            barmode='group',
+            bargap=0.15,
+            bargroupgap=0.1,
+            font=dict(
+                family="Inter, -apple-system, BlinkMacSystemFont, sans-serif",
+                size=12,
+                color=text_color
+            ),
+            margin=dict(l=20, r=20, t=20, b=40),
+            legend=dict(
+                orientation="h",
+                yanchor="bottom",
+                y=-0.15,
+                xanchor="center",
+                x=0.5,
+                bgcolor=legend_bg,
+                bordercolor=legend_border,
+                borderwidth=1,
+                font=dict(size=11, color=text_color)
+            ),
+            hovermode='x unified',
+            transition_duration=300
+        )
             
-        
         fig.for_each_trace(lambda trace: trace.update(name=trace.name.replace('Total Debt', 'Financial Debt')))
             
-        fig.update_xaxes(showline=True, linewidth=1, linecolor='black')
-        fig.update_yaxes(showline=True, linewidth=1, linecolor='black')
+        fig.update_xaxes(
+            showline=True, 
+            linewidth=1, 
+            linecolor=line_color,
+            showgrid=True,
+            gridcolor=grid_color,
+            tickfont=dict(size=11, color=text_color),
+            title_font=dict(size=12, color=text_color)
+        )
+        
+        fig.update_yaxes(
+            showline=True, 
+            linewidth=1, 
+            linecolor=line_color,
+            showgrid=True,
+            gridcolor=grid_color,
+            tickfont=dict(size=11, color=text_color),
+            title_font=dict(size=12, color=text_color),
+            ticksuffix="%",
+            zeroline=True,
+            zerolinecolor=line_color,
+            zerolinewidth=2
+        )
         
     except KeyError:
         print("Veri setinde beklenmeyen bir anahtar bulundu.")
@@ -359,15 +517,45 @@ def profile(request, symbol):
         ceo = "N/A"
         cfo = "N/A"
 
-        hist_df = yf.download(symbol, start="2020-01-01", end=datetime.now().strftime("%Y-%m-%d"))        
+        # For now, default to light mode charts
+        # The charts will adapt based on your existing dark mode CSS
+        dark_mode = False
+        
+        # Get stock data for chart
         hist_df_tl, info = retrieve_stock_data(ticker)
-        linechart_fig = create_line_chart(hist_df_tl)
+        linechart_fig = create_line_chart(hist_df_tl, symbol, dark_mode)
+        
+        # Get basic price data for change calculation  
+        hist_df_basic = yf.download(symbol, start="2020-01-01", end=datetime.now().strftime("%Y-%m-%d"))
 
-        chart_div = to_html(linechart_fig, full_html=False, include_plotlyjs="cdn")
-        p1, p2 = hist_df["Close"].values[-1], hist_df["Close"].values[-2]
+        chart_div = to_html(
+            linechart_fig, 
+            full_html=False, 
+            include_plotlyjs="cdn",
+            config={
+                'responsive': True,
+                'displayModeBar': False,
+                'scrollZoom': True,
+                'doubleClick': 'reset+autosize',
+                'showTips': False,
+                'editable': False,
+                'staticPlot': False
+            }
+        )
+        p1, p2 = hist_df_basic["Close"].values[-1], hist_df_basic["Close"].values[-2]
         change, prcnt_change = (p2-p1), (p2-p1) / p1
-        columnchart_fig = generate_net_debt_change_chart(symbol)
-        chart_netdebt_div = to_html(columnchart_fig, full_html=False, include_plotlyjs="cdn")
+        columnchart_fig = generate_net_debt_change_chart(symbol, dark_mode)
+        chart_netdebt_div = to_html(
+            columnchart_fig, 
+            full_html=False, 
+            include_plotlyjs="cdn",
+            config={
+                'responsive': True,
+                'displayModeBar': False,
+                'scrollZoom': False,
+                'doubleClick': 'reset+autosize'
+            }
+        )
 
         cash_flow= get_cash_flow_data(symbol)
         income_data = get_income_statement_data(symbol)

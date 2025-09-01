@@ -173,11 +173,130 @@
 /* Chart containers */
 .chart-container {
     background: white;
-    border-radius: 15px;
+    border-radius: 20px;
     padding: 25px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
     margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
+
+.chart-container:hover {
+    box-shadow: 0 15px 50px rgba(0,0,0,0.12);
+    transform: translateY(-2px);
+}
+
+/* Modern responsive chart styling */
+.plotly-graph-div {
+    border-radius: 15px !important;
+    overflow: hidden !important;
+}
+
+.chart-container .plotly-graph-div .main-svg {
+    border-radius: 15px !important;
+}
+
+/* Responsive chart container */
+.responsive-chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 60%; /* 16:10 aspect ratio */
+    overflow: hidden;
+    border-radius: 15px;
+}
+
+.responsive-chart-wrapper .plotly-graph-div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    .responsive-chart-wrapper {
+        padding-bottom: 80%; /* More square aspect ratio on mobile */
+    }
+    
+    .chart-container {
+        padding: 15px;
+        margin: 10px 0;
+    }
+    
+    .chart-container .box-title {
+        font-size: 1rem !important;
+    }
+}
+
+/* Tablet responsive adjustments */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .responsive-chart-wrapper {
+        padding-bottom: 70%;
+    }
+}
+
+/* Dark mode styles - adapts to existing dark mode classes */
+body.dark .chart-container,
+body.dark-mode .chart-container,
+html.dark .chart-container,
+[data-theme="dark"] .chart-container {
+    background: rgba(31, 41, 55, 1) !important;
+    border: 1px solid rgba(75, 85, 99, 0.3) !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3) !important;
+}
+
+body.dark .chart-container:hover,
+body.dark-mode .chart-container:hover,
+html.dark .chart-container:hover,
+[data-theme="dark"] .chart-container:hover {
+    box-shadow: 0 15px 50px rgba(0,0,0,0.4) !important;
+}
+
+body.dark .box-title,
+body.dark-mode .box-title,
+html.dark .box-title,
+[data-theme="dark"] .box-title {
+    color: #F9FAFB !important;
+}
+
+body.dark .modern-tab-button,
+body.dark-mode .modern-tab-button,
+html.dark .modern-tab-button,
+[data-theme="dark"] .modern-tab-button {
+    color: #D1D5DB !important;
+}
+
+body.dark .modern-tab-button:hover,
+body.dark-mode .modern-tab-button:hover,
+html.dark .modern-tab-button:hover,
+[data-theme="dark"] .modern-tab-button:hover {
+    background: rgba(139, 92, 246, 0.2) !important;
+    color: #A78BFA !important;
+}
+
+body.dark .modern-tab-button.active,
+body.dark .modern-tab-button[aria-selected="true"],
+body.dark-mode .modern-tab-button.active,
+body.dark-mode .modern-tab-button[aria-selected="true"],
+html.dark .modern-tab-button.active,
+html.dark .modern-tab-button[aria-selected="true"],
+[data-theme="dark"] .modern-tab-button.active,
+[data-theme="dark"] .modern-tab-button[aria-selected="true"] {
+    background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%) !important;
+    color: white !important;
+}
+
+body.dark .modern-tabs-container,
+body.dark-mode .modern-tabs-container,
+html.dark .modern-tabs-container,
+[data-theme="dark"] .modern-tabs-container {
+    background: rgba(31, 41, 55, 0.8) !important;
+    border: 1px solid rgba(75, 85, 99, 0.3) !important;
+}
+
 
 /* Animation for page load */
 @keyframes slideInUp {
@@ -205,6 +324,7 @@
 </style>
 
 {% endblock %} {% block content %}
+
 
 <div class="main-content">
     <!-- Page Header -->
@@ -640,15 +760,25 @@
                                 </div>
                             <div class="!p-0 !border-0 hidden" id="net-debt-tab-pane" role="tabpanel"
                                 aria-labelledby="net-debt-tab">
-                                <div class="grid grid-cols-12 gap-x-6">
-                                    <div class="xl:col-span-6 col-span-12">
-                                        <div class="box custom-box">
+                                <div class="grid grid-cols-1 gap-6">
+                                    <div class="col-span-1">
+                                        <div class="box custom-box chart-container">
                                             <div class="box-header">
-                                                <div class="box-title">{{stock_data.stock_name}}'s Net Debt Analysis
+                                                <div class="box-title" style="font-size: 1.2rem; font-weight: 600; color: #374151;">
+                                                    {{stock_data.stock_name}}'s Net Debt Analysis
+                                                </div>
+                                                <div class="flex gap-2 items-center">
+                                                    <span class="badge bg-warning-transparent text-warning rounded-pill">Yearly Change</span>
+                                                    <span class="badge bg-primary-transparent text-primary rounded-pill">Percentage</span>
+                                                    <span class="badge bg-info-transparent text-info rounded-pill">Interactive</span>
                                                 </div>
                                             </div>
-                                            <div class="box-body">
-                                                {{stock_data.chart_netdebt_div|safe}}
+                                            <div class="box-body p-0">
+                                                <div class="responsive-chart-wrapper">
+                                                    <div id="net-debt-chart">
+                                                        {{stock_data.chart_netdebt_div|safe}}
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -656,78 +786,302 @@
                             </div>
                             <div class="!p-0 !border-0 hidden" id="price-tab-pane" role="tabpanel"
                                 aria-labelledby="price-tab">
-                                <div class="grid grid-cols-16 sm:gap-x-6 gap-y-6">
-                                    <div class="xl:col-span-6 col-span-16">
-                                        <div class="box custom-box chart-container" style="border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+                                <div class="grid grid-cols-1 gap-6">
+                                    <div class="col-span-1">
+                                        <div class="box custom-box chart-container">
                                             <div class="box-header">
-                                                <div class="box-title" style="font-size: 1.2rem; font-weight: 600;">
+                                                <div class="box-title" style="font-size: 1.2rem; font-weight: 600; color: #374151;">
                                                     {{stock_data.stock_name}} Stock Price Performance (TL)
                                                 </div>
                                                 <div class="flex gap-2 items-center">
                                                     <span class="badge bg-success-transparent text-success rounded-pill">TL</span>
                                                     <span class="badge bg-primary-transparent text-primary rounded-pill">Daily Close</span>
+                                                    <span class="badge bg-info-transparent text-info rounded-pill">Responsive</span>
                                                 </div>
                                             </div>
-                                            <div class="box-body">
-                                                <div id="stock-price-chart" 
-                                                     style="width: 100%; height: 600px; border-radius: 15px; overflow: hidden;">
-                                                    {{stock_data.chart_div|safe}}
+                                            <div class="box-body p-0">
+                                                <div class="responsive-chart-wrapper">
+                                                    <div id="stock-price-chart">
+                                                        {{stock_data.chart_div|safe}}
+                                                    </div>
                                                 </div>
                                                 
                                                 <script>
+                                                // Detect existing dark mode from your system
+                                                function detectExistingDarkMode() {
+                                                    // Check multiple possible dark mode indicators
+                                                    const bodyClasses = document.body.className;
+                                                    const htmlClasses = document.documentElement.className;
+                                                    
+                                                    return (
+                                                        bodyClasses.includes('dark') ||
+                                                        bodyClasses.includes('dark-mode') ||
+                                                        htmlClasses.includes('dark') ||
+                                                        htmlClasses.includes('dark-mode') ||
+                                                        document.querySelector('[data-theme="dark"]') ||
+                                                        localStorage.getItem('theme') === 'dark' ||
+                                                        localStorage.getItem('darkMode') === 'true'
+                                                    );
+                                                }
+                                                
+                                                // Monitor for dark mode changes in existing system
+                                                function watchForThemeChanges() {
+                                                    let currentTheme = detectExistingDarkMode();
+                                                    
+                                                    // Create observer for theme changes
+                                                    const observer = new MutationObserver(() => {
+                                                        const newTheme = detectExistingDarkMode();
+                                                        if (newTheme !== currentTheme) {
+                                                            currentTheme = newTheme;
+                                                            updateChartThemes(newTheme);
+                                                        }
+                                                    });
+                                                    
+                                                    // Watch for class changes on body and html
+                                                    observer.observe(document.body, { 
+                                                        attributes: true, 
+                                                        attributeFilter: ['class', 'data-theme'] 
+                                                    });
+                                                    observer.observe(document.documentElement, { 
+                                                        attributes: true, 
+                                                        attributeFilter: ['class', 'data-theme'] 
+                                                    });
+                                                    
+                                                    // Also listen for storage changes
+                                                    window.addEventListener('storage', () => {
+                                                        const newTheme = detectExistingDarkMode();
+                                                        if (newTheme !== currentTheme) {
+                                                            currentTheme = newTheme;
+                                                            updateChartThemes(newTheme);
+                                                        }
+                                                    });
+                                                }
+                                                
+                                                function updateChartThemes(isDark) {
+                                                    console.log('Theme changed to:', isDark ? 'dark' : 'light');
+                                                    
+                                                    // Update stock price chart
+                                                    const stockChart = document.querySelector('#stock-price-chart .plotly-graph-div');
+                                                    if (stockChart) {
+                                                        updateLineChartTheme(stockChart, isDark);
+                                                    }
+                                                    
+                                                    // Update net debt chart
+                                                    const netDebtChart = document.querySelector('#net-debt-chart .plotly-graph-div');
+                                                    if (netDebtChart) {
+                                                        updateBarChartTheme(netDebtChart, isDark);
+                                                    }
+                                                }
+                                                
+                                                function updateLineChartTheme(chartDiv, isDark) {
+                                                    if (!chartDiv || !window.Plotly) return;
+                                                    
+                                                    const colors = getDarkModeColors(isDark);
+                                                    
+                                                    const update = {
+                                                        'plot_bgcolor': colors.plot_bg,
+                                                        'paper_bgcolor': colors.paper_bg,
+                                                        'font.color': colors.text_color,
+                                                        'xaxis.gridcolor': colors.grid_color,
+                                                        'yaxis.gridcolor': colors.grid_color,
+                                                        'xaxis.linecolor': colors.grid_color,
+                                                        'yaxis.linecolor': colors.grid_color,
+                                                        'xaxis.tickfont.color': colors.text_color,
+                                                        'yaxis.tickfont.color': colors.text_color,
+                                                        'xaxis.spikecolor': colors.spike_color,
+                                                        'yaxis.spikecolor': colors.spike_color
+                                                    };
+                                                    
+                                                    // Update trace colors
+                                                    const traceUpdate = {
+                                                        'line.color': [colors.line_color],
+                                                        'fillcolor': [colors.fill_color],
+                                                        'hoverlabel.bgcolor': [colors.hover_bg]
+                                                    };
+                                                    
+                                                    Plotly.restyle(chartDiv, traceUpdate, [0]);
+                                                    Plotly.relayout(chartDiv, update);
+                                                }
+                                                
+                                                function updateBarChartTheme(chartDiv, isDark) {
+                                                    if (!chartDiv || !window.Plotly) return;
+                                                    
+                                                    const colors = getDarkModeColors(isDark);
+                                                    const barColors = isDark 
+                                                        ? ['rgba(139, 92, 246, 0.8)', 'rgba(251, 191, 36, 0.8)', 'rgba(34, 197, 94, 0.8)']
+                                                        : ['rgba(102, 126, 234, 0.8)', 'rgba(245, 184, 73, 0.8)', 'rgba(34, 197, 94, 0.8)'];
+                                                    
+                                                    const update = {
+                                                        'plot_bgcolor': colors.plot_bg,
+                                                        'paper_bgcolor': colors.paper_bg,
+                                                        'font.color': colors.text_color,
+                                                        'xaxis.gridcolor': colors.grid_color,
+                                                        'yaxis.gridcolor': colors.grid_color,
+                                                        'xaxis.linecolor': colors.grid_color,
+                                                        'yaxis.linecolor': colors.grid_color,
+                                                        'xaxis.tickfont.color': colors.text_color,
+                                                        'yaxis.tickfont.color': colors.text_color,
+                                                        'yaxis.zerolinecolor': colors.grid_color,
+                                                        'legend.bgcolor': colors.legend_bg,
+                                                        'legend.bordercolor': colors.legend_border,
+                                                        'legend.font.color': colors.text_color
+                                                    };
+                                                    
+                                                    // Update trace colors for each bar
+                                                    for (let i = 0; i < Math.min(chartDiv.data.length, barColors.length); i++) {
+                                                        const traceUpdate = {
+                                                            'marker.color': barColors[i]
+                                                        };
+                                                        Plotly.restyle(chartDiv, traceUpdate, [i]);
+                                                    }
+                                                    
+                                                    Plotly.relayout(chartDiv, update);
+                                                }
+                                                
+                                                function getDarkModeColors(isDark) {
+                                                    if (isDark) {
+                                                        return {
+                                                            line_color: '#8B5CF6',
+                                                            fill_color: 'rgba(139, 92, 246, 0.2)',
+                                                            plot_bg: 'rgba(17, 24, 39, 0.8)',
+                                                            paper_bg: 'rgba(31, 41, 55, 1)',
+                                                            grid_color: 'rgba(75, 85, 99, 0.4)',
+                                                            text_color: '#F9FAFB',
+                                                            spike_color: 'rgba(139, 92, 246, 0.8)',
+                                                            hover_bg: 'rgba(139, 92, 246, 0.9)',
+                                                            legend_bg: 'rgba(55, 65, 81, 0.9)',
+                                                            legend_border: 'rgba(75, 85, 99, 0.5)'
+                                                        };
+                                                    } else {
+                                                        return {
+                                                            line_color: '#667eea',
+                                                            fill_color: 'rgba(102, 126, 234, 0.15)',
+                                                            plot_bg: 'rgba(248, 250, 252, 0.6)',
+                                                            paper_bg: 'white',
+                                                            grid_color: 'rgba(156, 163, 175, 0.3)',
+                                                            text_color: '#374151',
+                                                            spike_color: 'rgba(102, 126, 234, 0.6)',
+                                                            hover_bg: 'rgba(102, 126, 234, 0.9)',
+                                                            legend_bg: 'rgba(255, 255, 255, 0.8)',
+                                                            legend_border: 'rgba(156, 163, 175, 0.3)'
+                                                        };
+                                                    }
+                                                }
+                                                
                                                 document.addEventListener('DOMContentLoaded', function() {
-                                                    setTimeout(function() {
-                                                        // Grafik elementini bul
-                                                        const chartDiv = document.querySelector('#stock-price-chart .plotly-graph-div');
+                                                    // Start watching for theme changes
+                                                    watchForThemeChanges();
+                                                    // Wait for charts to load completely
+                                                    setTimeout(() => {
+                                                        initializeCharts();
                                                         
-                                                        if (chartDiv) {
-                                                            // Relayout event listener ekle
-                                                            chartDiv.on('plotly_relayout', function(eventdata) {
-                                                                // Eğer X ekseni range değişikliği varsa
-                                                                if (eventdata['xaxis.range[0]'] && eventdata['xaxis.range[1]']) {
-                                                                    const startDate = new Date(eventdata['xaxis.range[0]']);
-                                                                    const endDate = new Date(eventdata['xaxis.range[1]']);
+                                                        // Apply initial theme after charts load
+                                                        setTimeout(() => {
+                                                            const isDark = detectExistingDarkMode();
+                                                            updateChartThemes(isDark);
+                                                        }, 1000);
+                                                    }, 2000);
+                                                    
+                                                    function initializeCharts() {
+                                                        // Find chart elements
+                                                        const stockChartDiv = document.querySelector('#stock-price-chart .plotly-graph-div');
+                                                        const netDebtChartDiv = document.querySelector('#net-debt-chart .plotly-graph-div');
+                                                        
+                                                        console.log('Stock Chart Found:', !!stockChartDiv);
+                                                        console.log('Net Debt Chart Found:', !!netDebtChartDiv);
+                                                        
+                                                        if (stockChartDiv) {
+                                                            setupStockChart(stockChartDiv);
+                                                        }
+                                                        
+                                                        if (netDebtChartDiv) {
+                                                            setupBarChart(netDebtChartDiv);
+                                                        }
+                                                    }
+                                                    
+                                                    function setupStockChart(chartDiv) {
+                                                        // Enable proper zoom functionality
+                                                        chartDiv.on('plotly_relayout', function(eventdata) {
+                                                            console.log('Relayout event:', eventdata);
+                                                            
+                                                            // Handle zoom events
+                                                            if (eventdata['xaxis.range[0]'] && eventdata['xaxis.range[1]']) {
+                                                                console.log('Zoom detected');
+                                                                
+                                                                const startDate = new Date(eventdata['xaxis.range[0]']);
+                                                                const endDate = new Date(eventdata['xaxis.range[1]']);
+                                                                
+                                                                // Get chart data
+                                                                const trace = chartDiv.data[0];
+                                                                if (trace && trace.x && trace.y) {
+                                                                    let visibleY = [];
                                                                     
-                                                                    // Mevcut veriyi al
-                                                                    const data = chartDiv.data[0];
-                                                                    if (data && data.x && data.y) {
-                                                                        let visibleY = [];
-                                                                        
-                                                                        // Görünür aralıktaki Y değerlerini topla
-                                                                        for (let i = 0; i < data.x.length; i++) {
-                                                                            const dataDate = new Date(data.x[i]);
-                                                                            if (dataDate >= startDate && dataDate <= endDate && data.y[i] !== null) {
-                                                                                visibleY.push(data.y[i]);
-                                                                            }
-                                                                        }
-                                                                        
-                                                                        // Y ekseni aralığını ayarla
-                                                                        if (visibleY.length > 0) {
-                                                                            const minY = Math.min(...visibleY);
-                                                                            const maxY = Math.max(...visibleY);
-                                                                            const padding = (maxY - minY) * 0.05; // %5 padding
-                                                                            
-                                                                            // Minimum padding garantisi
-                                                                            const finalPadding = Math.max(padding, (maxY * 0.02));
-                                                                            
-                                                                            setTimeout(function() {
-                                                                                Plotly.relayout(chartDiv, {
-                                                                                    'yaxis.range': [minY - finalPadding, maxY + finalPadding]
-                                                                                });
-                                                                            }, 100);
+                                                                    // Find Y values in the visible date range
+                                                                    for (let i = 0; i < trace.x.length; i++) {
+                                                                        const dataDate = new Date(trace.x[i]);
+                                                                        if (dataDate >= startDate && dataDate <= endDate && 
+                                                                            trace.y[i] !== null && trace.y[i] !== undefined) {
+                                                                            visibleY.push(trace.y[i]);
                                                                         }
                                                                     }
+                                                                    
+                                                                    if (visibleY.length > 0) {
+                                                                        const minY = Math.min(...visibleY);
+                                                                        const maxY = Math.max(...visibleY);
+                                                                        const range = maxY - minY;
+                                                                        
+                                                                        // Add 10% padding
+                                                                        const padding = Math.max(range * 0.1, maxY * 0.05);
+                                                                        
+                                                                        console.log('Adjusting Y axis:', minY - padding, 'to', maxY + padding);
+                                                                        
+                                                                        // Update Y axis range
+                                                                        setTimeout(() => {
+                                                                            Plotly.relayout(chartDiv, {
+                                                                                'yaxis.range': [minY - padding, maxY + padding]
+                                                                            });
+                                                                        }, 100);
+                                                                    }
+                                                                }
+                                                            }
+                                                            
+                                                            // Handle double-click reset
+                                                            if (eventdata['xaxis.autorange'] && eventdata['yaxis.autorange']) {
+                                                                console.log('Reset to autorange');
+                                                            }
+                                                        });
+                                                        
+                                                        // Setup resize observer
+                                                        setupResizeObserver(chartDiv);
+                                                    }
+                                                    
+                                                    function setupBarChart(chartDiv) {
+                                                        // Setup resize observer
+                                                        setupResizeObserver(chartDiv);
+                                                    }
+                                                    
+                                                    function setupResizeObserver(chartDiv) {
+                                                        if (window.ResizeObserver) {
+                                                            const resizeObserver = new ResizeObserver(entries => {
+                                                                if (chartDiv) {
+                                                                    Plotly.Plots.resize(chartDiv);
                                                                 }
                                                             });
-                                                            
-                                                            // Modebar butonlarını taşı
-                                                            const modebar = chartDiv.querySelector('.modebar');
-                                                            if (modebar) {
-                                                                modebar.style.left = '10px';
-                                                                modebar.style.top = '60px';
-                                                            }
+                                                            resizeObserver.observe(chartDiv.parentElement);
                                                         }
-                                                    }, 1000);
+                                                    }
+                                                    
+                                                    // Handle window resize
+                                                    let resizeTimeout;
+                                                    window.addEventListener('resize', () => {
+                                                        clearTimeout(resizeTimeout);
+                                                        resizeTimeout = setTimeout(() => {
+                                                            const charts = document.querySelectorAll('.plotly-graph-div');
+                                                            charts.forEach(chart => {
+                                                                if (chart) Plotly.Plots.resize(chart);
+                                                            });
+                                                        }, 300);
+                                                    });
                                                 });
                                                 </script>
                                             </div>

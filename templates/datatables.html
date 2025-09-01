@@ -1,0 +1,64 @@
+{% extends 'components/base.html' %}
+{% load static %}
+
+{% block styles %}
+
+        <!-- Tabulator Css -->
+        <link rel="stylesheet" href="{% static 'assets/libs/tabulator-tables/css/tabulator.min.css'%}">
+
+        <!-- Choices Css -->
+        <link rel="stylesheet" href="{% static 'assets/libs/choices.js/public/assets/styles/choices.min.css'%}">
+        
+{% endblock %}
+
+{% block content %}
+
+                        <div class="grid grid-cols-12 gap-6">
+                          <div class="col-span-12">
+                            <div class="box">
+                              <div class="box-header">
+                                <h5 class="box-title">Table</h5>
+                              </div>
+                              <div class="box-body space-y-3">
+                                <div class="download-data">
+                                    <button type="button" class="ti-btn ti-btn-primary" id="download-csv">Download CSV</button>
+                                    <button type="button" class="ti-btn ti-btn-primary" id="download-json">Download JSON</button>
+                                    <button type="button" class="ti-btn ti-btn-primary" id="download-xlsx">Download XLSX</button>
+                                    <button type="button" class="ti-btn ti-btn-primary" id="download-pdf">Download PDF</button>
+                                    <button type="button" class="ti-btn ti-btn-primary" id="download-html">Download HTML</button>
+                                </div>
+                                
+                                <div class="overflow-hidden table-bordered">
+                                  <div id="download-table" class="ti-custom-table ti-striped-table ti-custom-table-hover">  
+                                  </div>
+                                  
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- End::row-3 -->
+                
+                    </div>
+                    <!-- Start::main-content -->
+{% endblock %}
+
+{% block scripts %}
+
+        <!-- Tabulator JS -->
+        <script src="{% static 'assets/libs/tabulator-tables/js/tabulator.min.js'%}"></script>
+
+        <!-- Choices JS -->
+        <script src="{% static 'assets/libs/choices.js/public/assets/scripts/choices.min.js'%}"></script>
+
+        <!-- XLXS JS -->
+        <script src="{% static 'assets/libs/xlsx/xlsx.full.min.js'%}"></script>
+
+        <!-- JSPDF JS -->
+        <script src="{% static 'assets/libs/jspdf/jspdf.umd.min.js'%}"></script>
+        <script src="{% static 'assets/libs/jspdf-autotable/jspdf.plugin.autotable.min.js'%}"></script>
+
+        <!-- Tabulator Custom JS -->
+        <script src="{% static 'assets/js/datatable.js' %}"></script>
+
+{% endblock %}

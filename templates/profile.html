@@ -1,0 +1,808 @@
+{% extends 'components/base.html' %} {% load static %} {% block styles %}
+<link rel="stylesheet" href="{% static 'assets/libs/glightbox/css/glightbox.min.css'%}" />
+
+{% endblock %} {% block content %}
+
+<div class="main-content">
+    <!-- Page Header -->
+    <div class="block justify-between page-header md:flex">
+        <div>
+            <h3
+                class="!text-defaulttextcolor dark:!text-defaulttextcolor/70 dark:text-white dark:hover:text-white text-[1.125rem] font-semibold">
+                {{stock_data.stock_name}}'s Profile
+            </h3>
+        </div>
+        <ol class="flex items-center whitespace-nowrap min-w-0">
+            <li class="text-[0.813rem] ps-[0.5rem]">
+                <a class="flex items-center text-primary hover:text-primary dark:text-primary truncate"
+                    href="javascript:void(0);">
+                    Pages
+                    <i
+                        class="ti ti-chevrons-right flex-shrink-0 text-[#8c9097] dark:text-white/50 px-[0.5rem] overflow-visible rtl:rotate-180"></i>
+                </a>
+            </li>
+            <li class="text-[0.813rem] text-defaulttextcolor font-semibold hover:text-primary dark:text-[#8c9097] dark:text-white/50"
+                aria-current="page">
+                Profile
+            </li>
+        </ol>
+    </div>
+    <!-- Page Header Close -->
+
+    <!-- Start::row-1 -->
+    <div class="grid grid-cols-12 gap-x-6">
+        <div class="xxl:col-span-4 xl:col-span-12 col-span-12">
+            <div class="box overflow-hidden">
+                <div class="box-body !p-0">
+                    <div class="sm:flex items-start p-6 main-profile-cover">
+                        <div>
+                            <span class="avatar avatar-xxl avatar-rounded me-4">
+                                <img src="{% static 'assets/images/company-logos/' %}{{ symbol|slice:'0:5' }}.png"
+                                    alt="">
+                            </span>
+                        </div>
+                        <div class="flex-grow main-profile-info">
+                            <div class="flex items-center !justify-between">
+                                <h6 class="font-semibold mb-1 text-white text-[1rem]">{{symbol|slice:'0:5'}}</h6>
+                            </div>
+                            <h4 class="font-semibold mb-1 text-white text-[1rem]">{{stock_data.long_name}}</h4>
+                            <p class="text-[0.75rem] text-white mb-6 opacity-[0.5]">
+                                <span class="me-4 inline-flex"><i
+                                        class="ri-building-line me-1 align-middle"></i>{{stock_data.country}}</span>
+                                <span class="inline-flex"><i
+                                        class="ri-map-pin-line me-1 align-middle"></i>{{stock_data.city}}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6 border-b border-dashed dark:border-defaultborder/10">
+                    <div class="mb-6">
+                        <p class="text-[.9375rem] mb-2 font-semibold">
+                            About:
+                        </p>
+                        <p class="text-[0.75rem] text-[#8c9097] dark:text-white/50 opacity-[0.7] mb-0">
+                            <b class="text-defaulttextcolor">{{ stock_data.long_description}}</b>
+                        </p>
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-[.9375rem] mb-2 font-semibold">Links:</p>
+                        <div class="mb-0">
+                            <p class="mb-1">
+                                <a href="{{ stock_data.website }}"
+                                    class="text-primary"><u>{{stock_data.website}}</u></a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-[.9375rem] mb-2 font-semibold">Industry:</p>
+                        <div class="mb-0">
+                            <p class="mb-1">
+                                <span class="text-[#8c9097] dark:text-white/50 opacity-[0.7] mb-0">
+                                    <b class="text-defaulttextcolor">{{stock_data.industry}}</b></span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <p class="text-[.9375rem] mb-2 font-semibold">Sector:</p>
+                        <div class="mb-0">
+                            <p class="mb-1">
+                                <span class="text-[#8c9097] dark:text-white/50 opacity-[0.7] mb-0">
+                                    <b class="text-defaulttextcolor">{{stock_data.sector}}</b></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <p class="text-[.9375rem] mb-2 me-6 font-semibold">Key Executives:</p>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <div class="sm:flex items-start">
+                                <div class="sm:ms-2 ms-0 sm:mt-0 mt-1 font-semibold flex-grow">
+                                    <p class="mb-0 leading-none">{{ stock_data.ceo }}</p>
+                                    <span
+                                        class="text-[.6875rem] text-[#8c9097] dark:text-white/50 opacity-[0.7]">CEO</span>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="sm:flex items-start">
+                                <div class="sm:ms-2 ms-0 sm:mt-0 mt-1 font-semibold flex-grow">
+                                    <p class="mb-0 leading-none">{{ stock_data.cfo }}</p>
+                                    <span
+                                        class="text-[.6875rem] text-[#8c9097] dark:text-white/50 opacity-[0.7]">CFO</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="p-6 border-b border-dashed dark:border-defaultborder/10">
+                    <p class="text-[.9375rem] mb-2 me-6 font-semibold">
+                        Contact Information :
+                    </p>
+                    <div class="text-[#8c9097] dark:text-white/50">
+                        <p class="mb-2">
+                            <span
+                                class="avatar avatar-sm avatar-rounded me-2 bg-light text-[#8c9097] dark:text-white/50">
+                                <i
+                                    class="ri-phone-line align-middle text-[.875rem] text-[#8c9097] dark:text-white/50"></i>
+                            </span>
+                            +{{ stock_data.phone }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="xxl:col-span-8 xl:col-span-12 col-span-12">
+        <div class="grid grid-cols-12 gap-x-6">
+            <div class="xl:col-span-12 col-span-12">
+                <div class="box">
+                    <div class="box-body !p-0">
+                        <div
+                            class="!p-4 border-b dark:border-defaultborder/10 border-dashed md:flex items-center justify-between">
+                            <nav class="-mb-0.5 sm:flex md:space-x-6 rtl:space-x-reverse pb-2">
+                                <a class="w-full sm:w-auto flex hs-tab-active:font-semibold hs-tab-active:text-white hs-tab-active:bg-primary rounded-md py-2 px-4 text-primary text-sm"
+                                    href="javascript:void(0);" id="profitability-tab"
+                                    data-hs-tab="#profitability-tab-pane" aria-controls="profitability-tab-pane">
+                                    <i class="ri-bar-chart-2-line align-middle inline-block me-1"></i>Profitability
+                                    Measurements</a>
+
+                                <a class="w-full sm:w-auto flex hs-tab-active:font-semibold hs-tab-active:text-white hs-tab-active:bg-primary rounded-md py-2 px-4 text-primary text-sm"
+                                    href="javascript:void(0);" id="ratios-tab" data-hs-tab="#ratios-tab-pane"
+                                    aria-controls="ratios-tab-pane">
+                                    <i class="ri-calculator-line align-middle inline-block me-1"></i>Ratios</a>
+
+                                <a class="w-full sm:w-auto flex hs-tab-active:font-semibold hs-tab-active:text-white hs-tab-active:bg-primary rounded-md py-2 px-4 text-primary text-sm"
+                                    href="javascript:void(0);" id="net-debt-tab" data-hs-tab="#net-debt-tab-pane"
+                                    aria-controls="net-debt-tab-pane">
+                                    <i class="ri-pie-chart-line align-middle inline-block me-1"></i>Net Debt
+                                    Analysis</a>
+
+                                <a class="w-full sm:w-auto flex hs-tab-active:font-semibold hs-tab-active:text-white hs-tab-active:bg-primary rounded-md py-2 px-4 text-primary text-sm"
+                                    href="javascript:void(0);" id="price-tab" data-hs-tab="#price-tab-pane"
+                                    aria-controls="price-tab-pane">
+                                    <i class="ri-coin-line align-middle inline-block me-1"></i>Stock Price TL
+                                </a>
+
+                                <a class="w-full sm:w-auto flex hs-tab-active:font-semibold hs-tab-active:text-white hs-tab-active:bg-primary rounded-md py-2 px-4 text-primary text-sm"
+                                    href="javascript:void(0);" id="price-usd-tab" data-hs-tab="#price-usd-tab-pane"
+                                    aria-controls="price-usd-tab-pane">
+                                    <i class="ri-coin-line align-middle inline-block me-1"></i>Stock Price USD
+                                </a>
+
+                                <a class="w-full sm:w-auto flex hs-tab-active:font-semibold hs-tab-active:text-white hs-tab-active:bg-primary rounded-md py-2 px-4 text-primary text-sm"
+                                    href="javascript:void(0);" id="balance-sheet-tab"
+                                    data-hs-tab="#balance-sheet-tab-pane" aria-controls="balance-sheet-tab-pane">
+                                    <i class="ri-file-list-3-line align-middle inline-block me-1"></i>Balance Sheet
+                                </a>
+
+                                <a class="w-full sm:w-auto flex hs-tab-active:font-semibold hs-tab-active:text-white hs-tab-active:bg-primary rounded-md py-2 px-4 text-primary text-sm"
+                                    href="javascript:void(0);" id="income-statement-tab"
+                                    data-hs-tab="#income-statement-tab-pane" aria-controls="income-statement-tab-pane">
+                                    <i class="ri-bar-chart-line align middle inline-block me-1"></i>Income Statement
+                                </a>
+                                <a class="w-full sm:w-auto flex hs-tab-active:font-semibold hs-tab-active:text-white hs-tab-active:bg-primary rounded-md py-2 px-4 text-primary text-sm"
+                                    href="javascript:void(0);" id="cashflow-statement-tab"
+                                    data-hs-tab="#cashflow-statement-tab-pane"
+                                    aria-controls="income-statement-tab-pane">
+                                    <i class="ri-bar-chart-line align middle inline-block me-1"></i>Cash Flow Statement
+                                </a>
+                            </nav>
+                        </div>
+                        <div class="!p-4">
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade !p-0 !border-0" id="profitability-tab-pane" role="tabpanel"
+                                    aria-labelledby="profitability-tab">
+                                    <div class="box-header">
+                                        <div class="box custom-box">
+                                            <div class="box-title">
+                                                {{stock_data.stock_name}}'s Profitability Measurements
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table whitespace-nowrap min-w-full ">
+                                            <thead>
+                                                <tr class="border-b border-defaultborder">
+                                                    <th scope="col" class="text-start">Indicator</th>
+                                                    {% for date, data in stock_data.profitability_data.items %}
+                                                    <th scope="col" class="text-start">{{ date }}</th>
+                                                    {% endfor %}
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="border-b border-defaultborder">
+                                                    <th scope="row" class="text-start">Revenue</th>
+                                                    {% for date, data in stock_data.profitability_data.items %}
+                                                    <td>
+                                                        {% if date == 'Change' %}
+                                                        {% if data.TR == "--" %}
+                                                        <span style="color: orange;">{{ data.TR }}%</span>
+                                                        {% elif data.TR < 0 %} <span style="color: red;">{{ data.TR }}%
+                                                            <i class="ri-arrow-down-s-fill ms-1"></i></span>
+                                                            {% elif data.TR > 0 %}
+                                                            <span style="color: green;">{{ data.TR }}% <i
+                                                                    class="ri-arrow-up-s-fill ms-1"></i></span>
+                                                            {% else %}
+                                                            <span>{{ data.TR }}</span>
+                                                            {% endif %}
+                                                            {% else %}
+                                                            {{ data.TR }}
+                                                            {% endif %}
+                                                    </td>
+                                                    {% endfor %}
+                                                </tr>
+                                                <tr class="border-b border-defaultborder">
+                                                    <th scope="row" class="text-start">Gross Profit</th>
+                                                    {%for date, data in stock_data.profitability_data.items %}
+                                                    <td>
+                                                        {% if date == 'Change' %}
+                                                        {%if data.GP == "--" %}
+                                                        <span style="color: orange;">{{ data.GP }}%</span>
+                                                        {% elif data.GP < 0 %} <span style="color: red;">{{ data.GP }}%
+                                                            <i class="ri-arrow-down-s-fill ms-1"></i></span>
+                                                            {% else %}
+                                                            <span style="color: green;">{{ data.GP }}%<i
+                                                                    class="ri-arrow-up-s-fill ms-1"></i></span>
+                                                            {% endif %}
+                                                            {% else %}
+                                                            {{ data.GP }}
+                                                            {% endif %}
+                                                    </td>
+                                                    {% endfor %}
+                                                </tr>
+                                                <tr class="border-b border-defaultborder">
+                                                    <th scope="row" class="text-start">Operating Income</th>
+                                                    {%for date, data in stock_data.profitability_data.items %}
+                                                    <td>
+                                                        {% if date == 'Change' %}
+                                                        {%if data.OI == "--"%}
+                                                        <span style="color: orange;">{{ data.OI }}%</span>
+                                                        {% elif data.OI < 0 %} <span style="color: red;">{{ data.OI }}%
+                                                            <i class="ri-arrow-down-s-fill ms-1"></i></span>
+                                                            {% else %}
+                                                            <span style="color: green;">{{ data.OI }}% <i
+                                                                    class="ri-arrow-up-s-fill ms-1"></i></span>
+                                                            {% endif %}
+                                                            {% else %}
+                                                            {{ data.OI }}
+                                                            {% endif %}
+                                                    </td>
+                                                    {% endfor %}
+                                                </tr>
+                                                <tr class="border-b border-defaultborder">
+                                                    <th scope="row" class="text-start">NOPAT</th>
+                                                    {%for date, data in stock_data.profitability_data.items %}
+                                                    <td>
+                                                        {% if date == 'Change' %}
+                                                        {%if data.NOPAT == "--"%}
+                                                        <span style="color: orange;">{{ data.NOPAT }}%</span>
+                                                        {% elif data.NOPAT < 0 %} <span style="color: red;">
+                                                            {{data.NOPAT}}%
+                                                            <i class="ri-arrow-down-s-fill ms-1"></i></span>
+                                                            {% else %}
+                                                            <span style="color: green;">{{ data.NOPAT }}% <i
+                                                                    class="ri-arrow-up-s-fill ms-1"></i></span>
+                                                            {% endif %}
+                                                            {% else %}
+                                                            {{ data.NOPAT }}
+                                                            {% endif %}
+                                                    </td>
+                                                    {% endfor %}
+                                                </tr>
+                                                <tr class="border-b border-defaultborder">
+                                                    <th scope="row" class="text-start">EBIT</th>
+                                                    {%for date, data in stock_data.profitability_data.items %}
+                                                    <td>
+                                                        {% if date == 'Change' %}
+                                                        {%if data.EBIT == "--"%}
+                                                        <span style="color: orange;">{{ data.EBIT }}%</span>
+                                                        {% elif data.EBIT < 0 %} <span style="color: red;">
+                                                            {{data.EBIT}}%
+                                                            <i class="ri-arrow-down-s-fill ms-1"></i></span>
+                                                            {% else %}
+                                                            <span style="color: green;">{{ data.EBIT }}% <i
+                                                                    class="ri-arrow-up-s-fill ms-1"></i></span>
+                                                            {% endif %}
+                                                            {% else %}
+                                                            {{ data.EBIT }}
+                                                            {% endif %}
+
+                                                    </td>
+                                                    {% endfor %}
+                                                </tr>
+                                                <tr class="border-b border-defaultborder">
+                                                    <th scope="row" class="text-start">EBITDA</th>
+                                                    {%for date, data in stock_data.profitability_data.items %}
+                                                    <td>
+                                                        {% if date == 'Change' %}
+                                                        {%if data.EBITDA == "--"%}
+                                                        <span style="color: orange;">{{ data.EBITDA }}%</span>
+                                                        {% elif data.EBITDA < 0 %} <span style="color: red;">
+                                                            {{data.EBITDA}}%
+                                                            <i class="ri-arrow-down-s-fill ms-1"></i></span>
+                                                            {% else %}
+                                                            <span style="color: green;">{{data.EBITDA}}% <i
+                                                                    class="ri-arrow-up-s-fill ms-1"></i></span>
+                                                            {% endif %}
+                                                            {% else %}
+                                                            {{ data.EBITDA }}
+                                                            {% endif %}
+
+                                                    </td>
+                                                    {% endfor %}
+                                                </tr>
+                                                <tr class="border-b border-defaultborder">
+                                                    <th scope="row" class="text-start"> Net Income </th>
+                                                    {%for date, data in stock_data.profitability_data.items %}
+                                                    <td>
+                                                        {% if date == 'Change' %}
+                                                        {%if data.NI == "--"%}
+                                                        <span style="color: orange;">{{ data.NI }}%</span>
+                                                        {% elif data.NI < 0 %} <span style="color: red;">{{ data.NI }}%
+                                                            <i class="ri-arrow-down-s-fill ms-1"></i></span>
+                                                            {% else %}
+                                                            <span style="color: green;">{{ data.NI }}% <i
+                                                                    class="ri-arrow-up-s-fill ms-1"></i></span>
+                                                            {% endif %}
+                                                            {% else %}
+                                                            {{ data.NI }}
+                                                            {% endif %}
+                                                    </td>
+                                                    {% endfor %}
+                                                </tr>
+                                                <tr class="border-b border-defaultborder">
+                                                    <th scope="row" class="text-start"> FCFF </th>
+                                                    {%for date, data in stock_data.profitability_data.items %}
+                                                    <td>
+                                                        {% if date == 'Change' %}
+                                                        {%if data.FCFF == "--"%}
+                                                        <span style="color: orange;">{{ data.FCFF }}%</span>
+                                                        {% elif data.FCFF < 0 %} <span style="color: red;">
+                                                            {{data.FCFF}}%
+                                                            <i class="ri-arrow-down-s-fill ms-1"></i></span>
+                                                            {% else %}
+                                                            <span style="color: green;">{{ data.FCFF }}% <i
+                                                                    class="ri-arrow-up-s-fill ms-1"></i></span>
+                                                            {% endif %}
+                                                            {% else %}
+                                                            {{ data.FCFF }}
+                                                            {% endif %}
+                                                    </td>
+                                                    {% endfor %}
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade !p-0 !border-0 hidden" id="ratios-tab-pane" role="tabpanel"
+                                    aria-labelledby="ratios-tab">
+                                    <div class="table-responsive">
+                                        <div class="box custom-box">
+                                            <div class="box-header">
+                                                <div class="box-title">
+                                                    {{stock_data.stock_name}}'s Ratios
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <table class="table whitespace-nowrap min-w-full">
+                                                    <thead>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <th scope="col" class="text-start">Ratios</th>
+                                                            <th scope="col" class="text-start">Values</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="table-group-divider dark:border-defaultborder/10">
+                                                        <tr class="border-b border-defaultborder">
+                                                            <th scope="row" class="text-start">P/E</th>
+                                                            <td>{{ stock_data.pe_ratio }}</td>
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <th scope="row" class="text-start">Price to Book</th>
+                                                            <td>{{ stock_data.price_to_book }}</td>
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <th scope="row" class="text-start">EV/EBITDA</th>
+                                                            <td>{{ stock_data.ev_ebitda }}</td>
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <th scope="row" class="text-start">EV/FCFF</th>
+                                                            <td>{{ stock_data.ev_fcff }}</td>
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <th scope="row" class="text-start">ROA</th>
+                                                            <td>{{ stock_data.roa }}</td>
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <th scope="row" class="text-start">ROE</th>
+                                                            <td>{{ stock_data.roe }}</td>
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <th scope="row" class="text-start">Current Ratio</th>
+                                                            <td>{{ stock_data.current_ratio }}</td>
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <th scope="row" class="text-start">Quick Ratio</th>
+                                                            <td>{{ stock_data.quick_ratio }}</td>
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <th scope="row" class="text-start">Financial Debt/FCFF</th>
+                                                            <td>{{ stock_data.total_debt_to_fcf }}</td>
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <th scope="row" class="text-start">Cash/MarketCap</th>
+                                                            <td>{{ stock_data.cash_market_cap }}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade !p-0 !border-0 hidden" id="net-debt-tab-pane" role="tabpanel"
+                                aria-labelledby="net-debt-tab">
+                                <div class="grid grid-cols-12 gap-x-6">
+                                    <div class="xl:col-span-6 col-span-12">
+                                        <div class="box custom-box">
+                                            <div class="box-header">
+                                                <div class="box-title">{{stock_data.stock_name}}'s Net Debt Analysis
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                {{stock_data.chart_netdebt_div|safe}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade !p-0 !border-0 hidden" id="price-tab-pane" role="tabpanel"
+                                aria-labelledby="price-tab">
+                                <div class="grid grid-cols-16 sm:gap-x-6 gap-y-6">
+                                    <div class="xl:col-span-6 col-span-16">
+                                        <div class="box custom-box">
+                                            <div class="box-header">
+                                                <div class="box-title">{{stock_data.stock_name}}'s Stock Price TL
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div id="candlestick-chart-container"
+                                                    style="width: 100%; height: 500px;">
+                                                    {{stock_data.chart_div|safe}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade !p-0 !border-0 hidden" id="price-usd-tab-pane" role="tabpanel"
+                                aria-labelledby="price-usd-tab">
+                                <div class="grid grid-cols-16 sm:gap-x-6 gap-y-6">
+                                    <div class="xl:col-span-6 col-span-16">
+                                        <div class="box custom-box">
+                                            <div class="box-header">
+                                                <div class="box-title">{{stock_data.stock_name}}'s Stock Price USD
+                                                </div>
+                                            </div>
+                                            <div class="box-body">
+                                                <div id="line-chart-container" style="width: 100%; height: 500px;">
+                                                    {{stock_data.usd_chart_div|safe}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade !p-0 !border-0 hidden" id="balance-sheet-tab-pane" role="tabpanel"
+                                aria-labelledby="balance-sheet-tab">
+                                <div class="grid  sm:gap-x-6 gap-y-6">
+                                    <div class="box custom-box">
+                                        <div class="box-header">
+                                            <div class="box-title">{{stock_data.stock_name}}'s Balance Sheet</div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="table-responsive">
+                                                <table class="table whitespace-nowrap table-bordered min-w-full">
+                                                    <thead>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <th scope="colgroup" class="text-start"></th>
+                                                            {% for date, data in stock_data.balance_data.items %}
+                                                            <th>{{ date }}</th>
+                                                            {% endfor %}
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td><strong>Total Assets</strong></td>
+                                                            {% for TA, data in stock_data.balance_data.items %}
+                                                            <td><strong>{{ data.TA}}</strong></td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td><strong>Current Assets</strong></td>
+                                                            {% for CA, data in stock_data.balance_data.items %}
+                                                            <td><strong>{{ data.CA }}</strong></td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Cash and Cash Equivalents</td>
+                                                            {% for CE, data in stock_data.balance_data.items %}
+                                                            <td>{{ data.CE }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Other Short Term Investments</td>
+                                                            {% for OSTI, data in stock_data.balance_data.items %}
+                                                            <td>{{ data.OSTI }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Inventory</td>
+                                                            {% for INV, data in stock_data.balance_data.items %}
+                                                            <td>{{ data.INV }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td><strong>Non Current Assets</strong></td>
+                                                            {% for NCA, data in stock_data.balance_data.items %}
+                                                            <td><strong>{{ data.NCA }}</strong></td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td><strong>Total Liabilities</strong></td>
+                                                            {% for TL, data in stock_data.balance_data.items %}
+                                                            <td><strong>{{ data.TL}}</strong></td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td><strong>Current Liabilities</strong></td>
+                                                            {% for CL, data in stock_data.balance_data.items %}
+                                                            <td><strong>{{ data.CL }}</strong></td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Short Term Debt</td>
+                                                            {% for STD, data in stock_data.balance_data.items %}
+                                                            <td>{{ data.STD }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td><strong>Non Current Liabilities</strong></td>
+                                                            {% for NCL, data in stock_data.balance_data.items %}
+                                                            <td><strong>{{ data.NCL }}</strong></td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Long Term Debt</td>
+                                                            {% for LTD, data in stock_data.balance_data.items %}
+                                                            <td>{{ data.LTD }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td><strong>Total Shareholder's Equity</strong></td>
+                                                            {% for TSE, data in stock_data.balance_data.items %}
+                                                            <td><strong>{{ data.TSE }}</strong></td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Minority Interest</td>
+                                                            {% for MI, data in stock_data.balance_data.items %}
+                                                            <td>{{ data.MI }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Common Stock</td>
+                                                            {% for CS, data in stock_data.balance_data.items %}
+                                                            <td>{{ data.CS}}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Retained Earnings</td>
+                                                            {% for RE, data in stock_data.balance_data.items %}
+                                                            <td>{{ data.RE }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Treasury Stock</td>
+                                                            {% for TS, data in stock_data.balance_data.items %}
+                                                            <td>{{ data.TS }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Net Working Capital</td>
+                                                            {% for NWC, data in stock_data.balance_data.items %}
+                                                            <td>{{ data.NWC }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Financial Debt</td>
+                                                            {% for FD, data in stock_data.balance_data.items %}
+                                                            <td>{{ data.FD }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Net Debt</td>
+                                                            {% for ND, data in stock_data.balance_data.items %}
+                                                            <td>{{ data.ND }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Operational NWC</td>
+                                                            {% for ON, data in stock_data.balance_data.items %}
+                                                            <td>{{ data.ON }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Change in Operational NWC</td>
+                                                            {% for CONW, data in stock_data.balance_data.items %}
+                                                            <td>{{ data.CONW }}</td> {% endfor %}
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade !p-0 !border-0 hidden" id="income-statement-tab-pane"
+                                role="tabpanel" aria-labelledby="income-statement-tab">
+                                <div class="grid sm:gap-x-6 gap-y-6">
+                                    <div class="box custom-box">
+                                        <div class="box-header">
+                                            <div class="box-title">
+                                                {{stock_data.stock_name}}'s Income Statement
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="table-responsive">
+                                                <table class="table whitespace-nowrap table-bordered min-w-full">
+                                                    <thead>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <th scope="colgroup" class="text-start"></th>
+                                                            {% for date, data in stock_data.income_data.items %}
+                                                            <th>{{ date }}</th>
+                                                            {% endfor %}
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td><strong>Sales Revenue</strong></td>
+                                                            {% for SR, data in stock_data.income_data.items %}
+                                                            <td><strong>{{ data.SR}}</strong></td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>COGS</td>
+                                                            {% for COGS, data in stock_data.income_data.items %}
+                                                            <td>{{ data.COGS }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td><strong>Gross Profit</strong></td>
+                                                            {% for GP, data in stock_data.income_data.items %}
+                                                            <td><strong>{{ data.GP}}</strong></td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>OPEX</td>
+                                                            {% for OPEX, data in stock_data.income_data.items %}
+                                                            <td>{{ data.OPEX }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>General & Administrative Expense</td>
+                                                            {% for GAA, data in stock_data.income_data.items %}
+                                                            <td>{{ data.GAA }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Selling & Marketing Expense</td>
+                                                            {% for SM, data in stock_data.income_data.items %}
+                                                            <td>{{ data.SM }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td><strong>Operating Profit</strong></td>
+                                                            {% for OP, data in stock_data.income_data.items %}
+                                                            <td><strong>{{ data.OP }}</strong></td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td><strong>EBIT</strong></td>
+                                                            {% for EBIT, data in stock_data.income_data.items %}
+                                                            <td><strong>{{ data.EBIT}}</strong></td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td><strong>EBITDA</strong></td>
+                                                            {% for EBITDA, data in stock_data.income_data.items %}
+                                                            <td><strong>{{ data.EBITDA}}</strong></td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Profit Before Tax</td>
+                                                            {% for PBT, data in stock_data.income_data.items %}
+                                                            <td>{{ data.PBT}}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Tax Provision</td>
+                                                            {% for TP, data in stock_data.income_data.items %}
+                                                            <td>{{ data.TP}}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td><strong>Net Income</strong></td>
+                                                            {% for NI, data in stock_data.income_data.items %}
+                                                            <td><strong>{{ data.NI}}</strong></td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Depreciation and Amortization</td>
+                                                            {% for DA, data in stock_data.income_data.items %}
+                                                            <td>{{ data.DA}}</td> {% endfor %}
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade !p-0 !border-0 hidden" id="cashflow-statement-tab-pane"
+                                role="tabpanel" aria-labelledby="cashflow-statement-tab">
+                                <div class="grid sm:gap-x-6 gap-y-6">
+                                    <div class="box custom-box">
+                                        <div class="box-header">
+                                            <div class="box-title">
+                                                {{stock_data.stock_name}}'s Cash Flow Statement
+                                            </div>
+                                        </div>
+                                        <div class="box-body">
+                                            <div class="table-responsive">
+                                                <table class="table table whitespace-nowrap table-bordered min-w-full">
+                                                    <thead>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <th scope="colgroup" class="text-start"></th>
+                                                            {% for date, data in stock_data.cash_flow.items %}
+                                                            <th>{{ date }}</th>
+                                                            {% endfor %}
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td><strong>Cash Flow From Operating Activities</strong>
+                                                            </td>
+                                                            {% for CFFOA, data in stock_data.cash_flow.items %}
+                                                            <td><strong>{{ data.CFFOA}}</strong></td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td><strong>Cash Flow From Investing Activities</strong>
+                                                            </td>
+                                                            {% for CFFIA, data in stock_data.cash_flow.items %}
+                                                            <td><strong>{{ data.CFFIA }}</strong></td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td><strong>Cash Flow From Financing Activities</strong>
+                                                            </td>
+                                                            {% for CFFFA, data in stock_data.cash_flow.items %}
+                                                            <td><strong>{{ data.CFFFA }}</strong></td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>End Cash Position</td>
+                                                            {% for ECP, data in stock_data.cash_flow.items %}
+                                                            <td>{{ data.ECP }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Changes in Cash</td>
+                                                            {% for CIC, data in stock_data.cash_flow.items %}
+                                                            <td>{{ data.CIC }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Effect of Exchange Rate Changes</td>
+                                                            {% for EOERC, data in stock_data.cash_flow.items %}
+                                                            <td>{{ data.EOERC }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td>Beginning Cash Position</td>
+                                                            {% for BCP, data in stock_data.cash_flow.items %}
+                                                            <td>{{ data.BCP }}</td> {% endfor %}
+                                                        </tr>
+                                                        <tr class="border-b border-defaultborder">
+                                                            <td><strong>CAPEX</strong></td>
+                                                            {% for CAPEX, data in stock_data.cash_flow.items %}
+                                                            <td><strong>{{ data.CAPEX }}</strong></td> {% endfor %}
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+{% endblock %} {% block scripts %}
+<script src="{% static 'assets/js/maindeneme.js' %}"></script>
+
+<!-- Gallery JS -->
+<script src="{% static 'assets/libs/glightbox/js/glightbox.min.js'%}"></script>
+
+<!-- Internal Profile JS -->
+<script src="{% static 'assets/js/profile.js'%}"></script>
+{% endblock %}

@@ -1,0 +1,163 @@
+<!-- cryptomarketcap.html -->
+
+{% extends 'components/base.html' %}
+{% load static %}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="main-content">
+
+    <!-- Page Header -->
+    <div class="block justify-between page-header md:flex">
+        <div>
+            <h3
+                class="!text-defaulttextcolor dark:!text-defaulttextcolor/70 dark:text-white dark:hover:text-white text-[1.125rem] font-semibold">
+                BIST30 Stocks</h3>
+        </div>
+        <ol class="flex items-center whitespace-nowrap min-w-0">
+            <li class="text-[0.813rem] ps-[0.5rem]">
+                <a class="flex items-center text-primary hover:text-primary dark:text-primary truncate"
+                    href="javascript:void(0);">
+                    Stocks
+                    <i
+                        class="ti ti-chevrons-right flex-shrink-0 text-[#8c9097] dark:text-white/50 px-[0.5rem] overflow-visible rtl:rotate-180"></i>
+                </a>
+            </li>
+            <li class="text-[0.813rem] text-defaulttextcolor font-semibold hover:text-primary dark:text-[#8c9097] dark:text-white/50 "
+                aria-current="page">
+                Marketcap
+            </li>
+        </ol>
+    </div>
+
+
+    <!--End::row-1 -->
+
+    <!-- Start::row-2  -->
+    <div class="grid grid-cols-12 gap-6">
+        <div class="xl:col-span-12 col-span-12">
+            <div class="box custom-box">
+                <div class="box-header justify-between">
+                    <div class="box-title">
+                        Marketcap
+                    </div>
+                    <div class="flex flex-wrap gap-2">
+                        <!--<div>
+                            <input class="form-control form-control-sm" type="text" placeholder="Search Here"
+                                aria-label=".form-control-sm example">
+                        </div>
+                        <div class="hs-dropdown ti-dropdown">
+                            <a href="javascript:void(0);" class="ti-btn ti-btn-primary-full !py-1 !px-2 !text-[0.75rem]"
+                                aria-expanded="false">
+                                Sort By<i class="ri-arrow-down-s-line align-middle ms-1 inline-block"></i>
+                            </a>
+                            <ul class="hs-dropdown-menu ti-dropdown-menu hidden" role="menu">
+                                <li><a class="ti-dropdown-item" href="javascript:void(0);">Market Cap</a></li>
+                                <li><a class="ti-dropdown-item" href="javascript:void(0);">Last Price</a></li>
+                                <li><a class="ti-dropdown-item" href="javascript:void(0);">52 Week High</a></li>
+                                <li><a class="ti-dropdown-item" href="javascript:void(0);">52 Week Low</a></li>
+                                <li><a class="ti-dropdown-item" href="javascript:void(0);">P/E</a></li>
+                                <li><a class="ti-dropdown-item" href="javascript:void(0);">EV/EBITDA</a></li>
+                                <li><a class="ti-dropdown-item" href="javascript:void(0);">Total Debt</a></li>
+                                <li><a class="ti-dropdown-item" href="javascript:void(0);">FCF</a></li>
+                            </ul>
+                        </div>
+                        <div>
+
+                        </div> -->
+                    </div>
+                </div>
+                <div class="box-body !p-0">
+                    <div class="table-responsive">
+                        <table class="table whitespace-nowrap min-w-full table" id="crypto_table">
+                            <thead>
+                                <tr>
+
+                                    <th scope="col" class="font-semibold text-start">#</th>
+                                    <th scope="col" class="text-start">Company Name</th>
+                                    <th scope="col" class="text-start">Last Price</th>
+                                    <th scope="col" class="text-start">Market Cap<span
+                                            class="text-[#8c9097] dark:text-white/50 ms-1"></span></th>
+                                    <th scope="col" class="text-start">52 Week High</th>
+                                    <th scope="col" class="text-start">52 Week Low</th>
+                                    <th scope="col" class="text-start">P/E</th>
+                                    <th scope="col" class="text-start">EV/EBITDA</th>
+                                    <th scope="col" class="text-start">Total Debt</th>
+                                    <th scope="col" class="text-start">FCF</th>
+                                </tr>
+                            </thead>
+                            <tbody id="crypto_table_body">
+                                {% for symbol, data in stock_data.items %}
+                                <tr class="border border-defaultborder border-x-0">
+
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>
+                                        <div class="flex items-center gap-2">
+                                            <div class="leading-none">
+                                                <span class="avatar avatar-xs avatar-rounded">
+                                                    <img src="{% static 'assets/images/company-logos/' %}{{ symbol|slice:'0:5' }}.png"
+                                                        alt="">
+                                                </span>
+                                            </div>
+                                            <div class="font-semibold">
+                                                <!-- Yeni satır: Profil sayfasına yönlendirme bağlantısı -->
+                                                <a href="{% url 'profile' symbol %}">{{ symbol|slice:"0:5" }}</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="font-semibold">₺{{ data.current_price|floatformat:"2" }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="font-semibold">{{ data.market_cap }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="font-semibold">₺{{ data.high_52w }}</span>
+                                        {% if data.high_52w > data.low_52w %}
+                                        <span class="ml-1" style="color: rgb(1, 160, 1);"><i
+                                                class="ri-arrow-up-s-line"></i></span>
+                                        {% elif data.high_52w < data.low_52w %} <span class="ml-1" style="color: red;">
+                                            <i class="ri-arrow-down-s-line"></i></span>
+                                            {% endif %}
+                                    </td>
+                                    <td>
+                                        <span class="font-semibold">₺{{ data.low_52w }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="font-semibold">{{ data.pe_ratio }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="font-semibold">{{ data.ev_ebitda }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="font-semibold">₺{{ data.total_debt }}</span>
+                                    </td>
+                                    <td>
+                                        <span class="font-semibold">₺{{ data.free_cash_flow }}</span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- End::row-2  -->
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+<!-- Apex Charts JS -->
+<!-- Crypto MarketCap JS -->
+<script src="{% static 'assets/js/crypto-marketcap.js'%}"></script>
+
+
+{% endblock %}

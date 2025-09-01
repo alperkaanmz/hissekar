@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-nav-layout="vertical" class="light" data-header-styles="light" data-menu-styles="dark">
+
+    <head>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Hissekar</title>
+        <meta name="description" content="A Tailwind CSS admin template is a pre-designed web page for an admin dashboard. Optimizing it for SEO includes using meta descriptions and ensuring it's responsive and fast-loading.">
+        <meta name="keywords" content="tailwind template, tailwind dashboard, tailwind css templates, admin, django admin template, tailwind css dashboard, django admin panel, tailwind css, dashboard, tailwind admin template, django admin, django template, admin dashboard template.">
+      
+        <!-- Favicon -->
+        <link rel="icon" href="{% static 'assets/images/brand-logos/favicon.ico'%}" type="image/x-icon">
+        
+        <!-- Start::styles -->
+        {% include 'components/layouts/styles.html' %}
+        {% block styles %}{% endblock %}
+        <!-- End::styles -->  
+
+	</head>
+
+	<body class="">
+
+        <!-- Start::main-switcher -->
+        {% include 'components/layouts/switcher.html' %}
+        <!-- End::main-switcher -->
+
+        <!-- Loader -->
+        <div id="loader" >
+            <img src="{% static 'assets/images/media/loader.svg'%}" alt="">
+        </div>
+        <!-- Loader -->
+
+        <div class="page">
+
+            <!-- Start::main-header -->
+            {% include 'components/layouts/main-header.html' %}
+            <!-- End::main-header -->
+
+            <!-- Start::main-sidebar -->
+            {% include 'components/layouts/main-sidebar.html' %}
+            <!-- End::main-sidebar -->
+            
+            <!-- Start::app-content -->
+            <div class="content">
+
+                {% block content %}{% endblock %}
+
+            </div>
+            <!-- End::app-content -->
+            
+            <!-- Start::main-modal -->
+            {% include 'components/layouts/modal.html' %}
+            <!-- End::main-modal --> 
+            
+            <!-- Start::main-footer -->
+            {% include 'components/layouts/footer.html' %}
+            <!-- End::main-footer -->        
+            
+		</div>
+        <!-- END PAGE-->
+
+        <!-- Start::scripts -->
+		{% include 'components/layouts/scripts.html' %}
+        
+        <!-- Sticky JS -->
+        <script src="{% static 'assets/js/sticky.js'%}"></script>
+        
+        <!-- Defaultmenu JS -->
+        <script src="{% static 'assets/js/defaultmenu.js'%}"></script>
+
+        {% block scripts %}{% endblock %}
+
+        <!-- Custom-Switcher JS -->
+        <script src="{% static 'assets/js/custom-switcher.js'%}"></script>
+
+        <!-- Custom JS -->
+        <script src="{% static 'assets/js/custom.js'%}"></script>
+          
+	</body>
+</html>

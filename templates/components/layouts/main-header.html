@@ -1,0 +1,124 @@
+{% load static %}
+
+<header class="app-header">
+	<nav class="main-header !h-[3.75rem]" aria-label="Global">
+		<div class="main-header-container ps-[0.725rem] pe-[1rem] ">
+
+			<!-- -->
+			<div class="header-content-left">
+				<!-- Start::header-element -->
+				<div class="header-element">
+					<div class="horizontal-logo">
+						<a href="index" class="header-logo">
+							<img src="{% static 'assets/images/brand-logos/desktop-logo.png'%}" alt="logo"
+								class="desktop-logo">
+							<img src="{% static 'assets/images/brand-logos/toggle-logo.png'%}" alt="logo"
+								class="toggle-logo">
+							<img src="{% static 'assets/images/brand-logos/desktop-dark.png'%}" alt="logo"
+								class="desktop-dark">
+							<img src="{% static 'assets/images/brand-logos/toggle-dark.png'%}" alt="logo"
+								class="toggle-dark">
+							<img src="{% static 'assets/images/brand-logos/desktop-white.png'%}" alt="logo"
+								class="desktop-white">
+							<img src="{% static 'assets/images/brand-logos/toggle-white.png'%}" alt="logo"
+								class="toggle-white">
+						</a>
+					</div>
+				</div>
+				<!-- End::header-element -->
+				<!-- Start::header-element -->
+				<div class="header-element md:px-[0.325rem] !items-center">
+					<!-- Start::header-link -->
+					<a aria-label="Hide Sidebar"
+						class="sidemenu-toggle animated-arrow  hor-toggle horizontal-navtoggle inline-flex items-center"
+						href="javascript:void(0);"><span></span></a>
+					<!-- End::header-link -->
+				</div>
+				<!-- End::header-element -->
+			</div>
+
+
+
+			<div class="header-content-right">
+
+				
+
+				<!-- start header country -->
+				<div
+					class="header-element py-[1rem] md:px-[0.65rem] px-2  header-country hs-dropdown ti-dropdown  hidden sm:block [--placement:bottom-left]">
+
+
+					<div class="hs-dropdown-menu ti-dropdown-menu min-w-[10rem] hidden !-mt-3"
+						aria-labelledby="dropdown-flag">
+						<div class="ti-dropdown-divider divide-y divide-gray-200 dark:divide-white/10">
+							<div class="py-2 first:pt-0 last:pb-0">
+								<div class="ti-dropdown-item !p-[0.65rem] ">
+									<div class="flex items-center space-x-2 rtl:space-x-reverse w-full">
+
+										<div>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- end header country -->
+
+				<!-- light and dark theme -->
+				<div
+					class="header-element header-theme-mode hidden !items-center sm:block !py-[1rem] md:!px-[0.65rem] px-2">
+					<a aria-label="anchor"
+						class="hs-dark-mode-active:hidden flex hs-dark-mode group flex-shrink-0 justify-center items-center gap-2  rounded-full font-medium transition-all text-xs dark:bg-bgdark dark:hover:bg-black/20 dark:text-[#8c9097] dark:text-white/50 dark:hover:text-white dark:focus:ring-white/10 dark:focus:ring-offset-white/10"
+						href="javascript:void(0);" data-hs-theme-click-value="dark">
+						<i class="bx bx-moon header-link-icon"></i>
+					</a>
+					<a aria-label="anchor"
+						class="hs-dark-mode-active:flex hidden hs-dark-mode group flex-shrink-0 justify-center items-center gap-2  rounded-full font-medium text-defaulttextcolor  transition-all text-xs dark:bg-bodybg dark:bg-bgdark dark:hover:bg-black/20 dark:text-[#8c9097] dark:text-white/50 dark:hover:text-white dark:focus:ring-white/10 dark:focus:ring-offset-white/10"
+						href="javascript:void(0);" data-hs-theme-click-value="light">
+						<i class="bx bx-sun header-link-icon"></i>
+					</a>
+				</div>
+				<!-- End light and dark theme -->
+
+				<!-- Header Cart item -->
+
+				<!--End Header cart item  -->
+
+				<!--End Related Apps -->
+
+				<!-- Fullscreen -->
+				<div class="header-element header-fullscreen py-[1rem] md:px-[0.65rem] px-2">
+					<!-- Start::header-link -->
+					<a aria-label="anchor" onclick="openFullscreen();" href="javascript:void(0);"
+						class="inline-flex flex-shrink-0 justify-center items-center gap-2  !rounded-full font-medium dark:hover:bg-black/20 dark:text-[#8c9097] dark:text-white/50 dark:hover:text-white dark:focus:ring-white/10 dark:focus:ring-offset-white/10">
+						<i class="bx bx-fullscreen full-screen-open header-link-icon"></i>
+						<i class="bx bx-exit-fullscreen full-screen-close header-link-icon hidden"></i>
+					</a>
+					<!-- End::header-link -->
+				</div>
+				<!-- End Full screen -->
+
+				<!-- Header Profile -->
+				<div
+					class="header-element md:!px-[0.65rem] px-2 hs-dropdown !items-center ti-dropdown [--placement:bottom-left]">
+
+				</div>
+				<!-- End Header Profile -->
+
+				<!-- Switcher Icon -->
+				<div class="header-element md:px-[0.48rem]">
+					<button aria-label="button" type="button"
+						class="hs-dropdown-toggle switcher-icon inline-flex flex-shrink-0 justify-center items-center gap-2  rounded-full font-medium  align-middle transition-all text-xs dark:text-[#8c9097] dark:text-white/50 dark:hover:text-white dark:focus:ring-white/10 dark:focus:ring-offset-white/10"
+						data-hs-overlay="#hs-overlay-switcher">
+						<i class="bx bx-cog header-link-icon animate-spin-slow"></i>
+					</button>
+				</div>
+				<!-- Switcher Icon -->
+
+				<!-- End::header-element -->
+			</div>
+		</div>
+	</nav>
+</header>
